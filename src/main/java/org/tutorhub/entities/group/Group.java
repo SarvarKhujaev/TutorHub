@@ -182,9 +182,6 @@ public final class Group implements EntityToPostgresConverter {
 
     @EntityConstructorAnnotation
     public Group ( @lombok.NonNull final Class<?> instance ) {
-        AnnotationInspector.checkCallerPermission(
-                Group.class,
-                instance
-        );
+        AnnotationInspector.checkCallerPermission( instance, Group.class );
     }
 }

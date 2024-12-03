@@ -96,7 +96,7 @@ public class StringOperations extends CollectionsInspector {
     ) {
         return String.join(
                 SPACE,
-                entity.get().getEntityTableName().name(),
+                entity.get().getEntityTableName(),
                 "was",
                 operation,
                 "successfully"
@@ -112,7 +112,7 @@ public class StringOperations extends CollectionsInspector {
     ) {
         return String.join(
                 SPACE,
-                entity.getEntityTableName().name(),
+                entity.getEntityTableName(),
                 "was",
                 operation,
                 "successfully"
@@ -142,7 +142,7 @@ public class StringOperations extends CollectionsInspector {
         return String.join(
                 SPACE,
                 "This",
-                entity.get().getEntityTableName().name(),
+                entity.get().getEntityTableName(),
                 "is not accepted"
         );
     }

@@ -120,9 +120,6 @@ public final class Comment implements EntityToPostgresConverter {
 
     @EntityConstructorAnnotation
     public Comment ( @lombok.NonNull final Class<?> instance ) {
-        AnnotationInspector.checkCallerPermission(
-                Comment.class,
-                instance
-        );
+        AnnotationInspector.checkCallerPermission( instance, Comment.class );
     }
 }

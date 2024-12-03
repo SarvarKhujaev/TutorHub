@@ -123,9 +123,6 @@ public final class Lesson implements EntityToPostgresConverter {
 
     @EntityConstructorAnnotation
     public Lesson ( @lombok.NonNull final Class<?> instance ) {
-        AnnotationInspector.checkCallerPermission(
-                Lesson.class,
-                instance
-        );
+        AnnotationInspector.checkCallerPermission( instance, Lesson.class );
     }
 }

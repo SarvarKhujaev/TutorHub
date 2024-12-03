@@ -1,6 +1,5 @@
 package org.tutorhub.database.hibernateConfigs;
 
-import org.tutorhub.constans.postgres_constants.postgres_transactions_constants.PostgresTransactionIsolationTypes;
 import org.tutorhub.database.postgresConfigs.PostgresStatisticsQueryController;
 import org.tutorhub.annotations.LinksToDocs;
 
@@ -43,10 +42,7 @@ public class HibernateConfigsAndOptions extends PostgresStatisticsQueryControlle
 
         dbSettings.put(
                 Environment.USER,
-                getVariable(
-                        HibernateConfigsAndOptions.class,
-                        "USER"
-                )
+                "postgres"
         );
 
         dbSettings.put(
@@ -58,15 +54,12 @@ public class HibernateConfigsAndOptions extends PostgresStatisticsQueryControlle
         );
 
         dbSettings.put( Environment.DRIVER, "org.postgresql.Driver" );
-        dbSettings.put( Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect" );
         dbSettings.put( Environment.HBM2DDL_AUTO, "update" );
 
         dbSettings.put( Environment.POOL_SIZE, 50 );
-        dbSettings.put( Environment.ISOLATION, PostgresTransactionIsolationTypes.READ_COMMITTED );
 
         dbSettings.put( Environment.SHOW_SQL, true );
         dbSettings.put( Environment.FORMAT_SQL, true );
-        dbSettings.put( Environment.LOG_SLOW_QUERY, true );
         dbSettings.put( Environment.USE_SQL_COMMENTS, true );
         dbSettings.put( Environment.LOG_JDBC_WARNINGS, true );
         /*
@@ -109,10 +102,10 @@ public class HibernateConfigsAndOptions extends PostgresStatisticsQueryControlle
         then the second-level cache is going to be enabled.
         Otherwise, the second-level cache is disabled.
         */
-        dbSettings.put(
-                Environment.USE_SECOND_LEVEL_CACHE,
-                true
-        );
+//        dbSettings.put(
+//                Environment.USE_SECOND_LEVEL_CACHE,
+//                true
+//        );
 
         /*
         If you enable the hibernate.generate_statistics configuration property,

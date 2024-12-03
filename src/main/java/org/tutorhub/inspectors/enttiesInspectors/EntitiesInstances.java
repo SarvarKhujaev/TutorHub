@@ -128,8 +128,14 @@ public final class EntitiesInstances extends AnnotationInspector {
     );
 
     @SuppressWarnings( value = "хранит instance на все основные объекты" )
-    public static final UnmodifiableList< AtomicReference< ? extends EntityToPostgresConverter> > instancesList = new UnmodifiableList<>(
-            List.of()
+    public static final UnmodifiableList< AtomicReference< ? extends EntityToPostgresConverter > > instancesList = new UnmodifiableList<>(
+            List.of(
+                    GROUP_ATOMIC_REFERENCE,
+                    LESSON_ATOMIC_REFERENCE,
+                    COMMENT_ATOMIC_REFERENCE,
+                    TEACHER_ATOMIC_REFERENCE,
+                    STUDENT_ATOMIC_REFERENCE
+            )
     );
 
     public static void clear() {
