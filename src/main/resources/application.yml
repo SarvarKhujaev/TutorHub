@@ -7,6 +7,11 @@ spring:
         name: TutorHub
 
 variables:
+    HIBERNATE_VALUES:
+        URL: "jdbc:postgresql://localhost:5432/postgres"
+        USER: "postgres"
+        PASSWORD: "killerbee"
+
     ENCRYPTION_VARIABLES:
         ITERATION_COUNT: ${ITERATION_COUNT:65536}
         ENCRYPTION_BYTE_SIZE: ${ENCRYPTION_BYTE_SIZE:128}

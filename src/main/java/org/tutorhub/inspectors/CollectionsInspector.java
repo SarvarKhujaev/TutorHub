@@ -97,7 +97,7 @@ public class CollectionsInspector extends UuidInspector {
 
     @lombok.NonNull
     @lombok.Synchronized
-    protected final synchronized <T, V> WeakHashMap<T, V> newMap () {
+    protected static synchronized <T, V> WeakHashMap<T, V> newMap () {
         return new WeakHashMap<>( 1 );
     }
 
