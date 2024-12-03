@@ -17,6 +17,8 @@ public final class PostgreSqlTables {
 
     @SuppressWarnings( value = "учебный центр" )
     public final static String STUDY_CENTER = "STUDY_CENTER";
+    @SuppressWarnings( value = "данные о курсах которые проводят в учебном центре" )
+    public final static String COURSES = "COURSES";
 
     public final static String EDUCATION_DIRECTIONS = "EDUCATION_DIRECTIONS";
 
