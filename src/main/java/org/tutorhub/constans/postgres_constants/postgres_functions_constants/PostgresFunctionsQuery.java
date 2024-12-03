@@ -1,17 +1,21 @@
 package org.tutorhub.constans.postgres_constants.postgres_functions_constants;
 
-import com.university.universityapplication.constans.postgres_constants.PostgreSqlSchema;
-import com.university.universityapplication.constans.postgres_constants.PostgresCommonCommands;
-import com.university.universityapplication.constans.postgres_constants.PostgresCreateValues;
+import org.tutorhub.constans.postgres_constants.PostgresCommonCommands;
+import org.tutorhub.constans.postgres_constants.PostgresCreateValues;
+import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
 
-/*
-https://www.postgresqltutorial.com/postgresql-plpgsql/postgresql-create-function/
-*/
+import org.tutorhub.annotations.LinksToDocs;
+
+@LinksToDocs(
+        links = "https://www.postgresqltutorial.com/postgresql-plpgsql/postgresql-create-function/"
+)
 public enum PostgresFunctionsQuery {
-    /*
-    возвращает имена названия всех индесков для конкретной таблицы
-    принимает название схемы и таблицы как параметры
-    */
+    @SuppressWarnings(
+            value = """
+                    возвращает имена названия всех индесков для конкретной таблицы
+                    принимает название схемы и таблицы как параметры
+                    """
+    )
     SELECT_ALL_INDEXES_IN_TABLE {
         @Override
         public String getQuery () {
@@ -30,9 +34,7 @@ public enum PostgresFunctionsQuery {
         }
     },
 
-    /*
-    возвращает список с названиями таблицы внутри схемы
-    */
+    @SuppressWarnings( value = "возвращает список с названиями таблицы внутри схемы" )
     SELECT_ALL_TABLES_IN_SCHEMA {
         @Override
         public String getQuery () {

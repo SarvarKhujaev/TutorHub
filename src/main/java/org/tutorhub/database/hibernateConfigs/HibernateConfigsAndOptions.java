@@ -1,5 +1,6 @@
 package org.tutorhub.database.hibernateConfigs;
 
+import org.tutorhub.constans.postgres_constants.postgres_transactions_constants.PostgresTransactionIsolationTypes;
 import org.tutorhub.database.postgresConfigs.PostgresStatisticsQueryController;
 import org.tutorhub.annotations.LinksToDocs;
 
@@ -27,7 +28,7 @@ import java.util.Map;
                 """
 )
 public class HibernateConfigsAndOptions extends PostgresStatisticsQueryController {
-    protected static int operationsCount = 0;
+    private static int operationsCount = 0;
     protected static final int BATCH_SIZE = 30;
     protected static final Map< String, Object > dbSettings = newMap();
 
@@ -52,16 +53,22 @@ public class HibernateConfigsAndOptions extends PostgresStatisticsQueryControlle
                 Environment.PASS,
                 getVariable(
                         HibernateConfigsAndOptions.class,
-                        "variables.HIBERNATE_VALUES.PASSWORD"
+                        "PASSWORD"
                 )
         );
 
         dbSettings.put( Environment.DRIVER, "org.postgresql.Driver" );
         dbSettings.put( Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect" );
-        dbSettings.put( Environment.SHOW_SQL, true );
-        dbSettings.put( Environment.FORMAT_SQL, true );
         dbSettings.put( Environment.HBM2DDL_AUTO, "update" );
 
+        dbSettings.put( Environment.POOL_SIZE, 50 );
+        dbSettings.put( Environment.ISOLATION, PostgresTransactionIsolationTypes.READ_COMMITTED );
+
+        dbSettings.put( Environment.SHOW_SQL, true );
+        dbSettings.put( Environment.FORMAT_SQL, true );
+        dbSettings.put( Environment.LOG_SLOW_QUERY, true );
+        dbSettings.put( Environment.USE_SQL_COMMENTS, true );
+        dbSettings.put( Environment.LOG_JDBC_WARNINGS, true );
         /*
         There’s the hibernate.jdbc.batch_versioned_data configuration property we need to set,
         in order to enable UPDATE batching

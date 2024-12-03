@@ -233,7 +233,7 @@ public class AnnotationInspector extends CustomServiceCleaner {
                 NULL_VALUE_IN_ASSERT
         );
 
-        Validate.isTrue( index >= 0 );
+        Validate.isTrue( index >= 0 && object.getDeclaredFields().length > index );
 
         Validate.isTrue(
                 object.isAnnotationPresent( ServiceParametrAnnotation.class ),
@@ -268,7 +268,7 @@ public class AnnotationInspector extends CustomServiceCleaner {
             final int defaultValue,
             final int index
     ) {
-        Validate.isTrue( index >= 0 );
+        Validate.isTrue( index >= 0 && object.getDeclaredFields().length > index );
 
         Validate.isTrue(
                 object.isAnnotationPresent( ServiceParametrAnnotation.class ),
