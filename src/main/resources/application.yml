@@ -4,7 +4,16 @@ server:
 
 spring:
     application:
-        name: TutorHub
+        name: TutorHubspring
+
+    datasource:
+        url: ${URL:jdbc:postgresql://localhost:5432/postgres}
+        username: ${USER:postgres}
+        password: ${PASSWORD:killerbee}
+
+    liquibase:
+        enabled: true
+        change-log: classpath:changelog/dbchangelog.xml
 
 variables:
     HIBERNATE_VALUES:

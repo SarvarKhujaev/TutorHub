@@ -1,6 +1,6 @@
 package org.tutorhub.database.postgresConfigs;
 
-import org.tutorhub.entities.query_result_mapper_entities.BufferAnalyzeResultMapper;
+import org.tutorhub.entities.postgres.query_result_mapper_entities.BufferAnalyzeResultMapper;
 import org.tutorhub.constans.postgres_constants.PostgresBufferMethods;
 
 @SuppressWarnings( value = "работает с кэщом буферизации PostgreSQL" )

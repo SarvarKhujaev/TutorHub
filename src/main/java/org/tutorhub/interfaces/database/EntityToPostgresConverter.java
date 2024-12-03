@@ -4,7 +4,7 @@ import org.tutorhub.constans.postgres_constants.PostgreSqlTables;
 import org.tutorhub.interfaces.services.ServiceCommonMethods;
 import org.tutorhub.inspectors.AnnotationInspector;
 
-public interface EntityToCassandraConverter extends ServiceCommonMethods {
+public interface EntityToPostgresConverter extends ServiceCommonMethods {
     @lombok.NonNull
     default PostgreSqlTables getEntityTableName () {
         return AnnotationInspector.getEntityKeyspaceOrTableName(

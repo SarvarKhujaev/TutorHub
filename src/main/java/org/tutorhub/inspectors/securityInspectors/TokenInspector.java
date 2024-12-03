@@ -54,7 +54,7 @@ public class TokenInspector extends AnnotationInspector {
                 .issuer( ISSUER )
 //                .claims( this.generateParamsForJWTToken( patrul ) )
 //                .subject( patrul.getEmail() )
-                .issuedAt( super.newDate() )
+                .issuedAt( newDate() )
                 .expiration( super.getExpirationDate() )
                 .signWith(
                         SignatureAlgorithm.HS512,

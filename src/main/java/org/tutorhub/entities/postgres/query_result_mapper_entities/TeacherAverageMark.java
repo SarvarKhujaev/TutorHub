@@ -1,4 +1,4 @@
-package org.tutorhub.entities.query_result_mapper_entities;
+package org.tutorhub.entities.postgres.query_result_mapper_entities;
 
 public final class TeacherAverageMark {
     private long lessonCount;

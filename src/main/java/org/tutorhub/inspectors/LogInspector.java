@@ -39,7 +39,7 @@ public class LogInspector extends WebFluxInspector {
                         SPACE_WITH_DOUBLE_DOTS,
                         o.getClass().getName(),
                         "was closed successfully at",
-                        super.newDate().toString()
+                        newDate().toString()
                 )
         );
     }
@@ -75,7 +75,7 @@ public class LogInspector extends WebFluxInspector {
                         SPACE_WITH_DOUBLE_DOTS,
                         clazz.getName(),
                         "was created at",
-                        super.newDate().toString()
+                        newDate().toString()
                 )
         );
     }

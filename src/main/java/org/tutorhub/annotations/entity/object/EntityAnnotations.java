@@ -1,8 +1,6 @@
 package org.tutorhub.annotations.entity.object;
 
-import org.tutorhub.constans.postgres_constants.PostgreSqlTables;
 import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
-
 import java.lang.annotation.*;
 
 @Target( value = ElementType.TYPE )
@@ -12,8 +10,8 @@ public @interface EntityAnnotations {
     String name();
     String comment() default StringOperations.EMPTY;
 
-    PostgreSqlTables tableName();
-    PostgreSqlTables keysapceName();
+    String tableName();
+    String keysapceName();
 
     @SuppressWarnings(
             value = """
@@ -47,6 +45,6 @@ public @interface EntityAnnotations {
     )
     boolean checkExistence() default false;
 
-    String[] primaryKeys() default { "uuid" };
+    String[] primaryKeys() default { "id" };
     ClusteringOrder[] clusteringKeys() default {};
 }

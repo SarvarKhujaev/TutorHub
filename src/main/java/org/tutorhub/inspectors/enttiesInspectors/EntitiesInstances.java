@@ -2,7 +2,8 @@ package org.tutorhub.inspectors.enttiesInspectors;
 
 import org.tutorhub.constans.postgres_constants.postgres_extensions.PostgresExtensions;
 import org.tutorhub.annotations.entity.fields.WeakReferenceAnnotation;
-import org.tutorhub.interfaces.database.EntityToCassandraConverter;
+
+import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 
 import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
 import org.tutorhub.inspectors.AnnotationInspector;
@@ -10,6 +11,12 @@ import org.tutorhub.inspectors.AnnotationInspector;
 import org.tutorhub.response.ApiResponseModel;
 import org.tutorhub.response.Status;
 import org.tutorhub.response.Data;
+
+import org.tutorhub.entities.student.Student;
+import org.tutorhub.entities.teacher.Teacher;
+import org.tutorhub.entities.comment.Comment;
+import org.tutorhub.entities.lesson.Lesson;
+import org.tutorhub.entities.group.Group;
 
 import org.apache.commons.collections4.list.UnmodifiableList;
 import org.apache.commons.collections4.set.UnmodifiableSet;
@@ -42,6 +49,38 @@ public final class EntitiesInstances extends AnnotationInspector {
         Validate.notNull( entity, NULL_VALUE_IN_ASSERT );
         return new AtomicReference<>( entity );
     }
+
+
+    public static final AtomicReference< Teacher > TEACHER_ATOMIC_REFERENCE = generateAtomicEntity(
+            checkAnnotationIsNotImmutable(
+                    new Teacher( EntitiesInstances.class )
+            )
+    );
+
+    public static final AtomicReference< Student > STUDENT_ATOMIC_REFERENCE = generateAtomicEntity(
+            checkAnnotationIsNotImmutable(
+                    new Student( EntitiesInstances.class )
+            )
+    );
+
+    public static final AtomicReference< Group > GROUP_ATOMIC_REFERENCE = generateAtomicEntity(
+            checkAnnotationIsNotImmutable(
+                    new Group( EntitiesInstances.class )
+            )
+    );
+
+    public static final AtomicReference< Lesson > LESSON_ATOMIC_REFERENCE = generateAtomicEntity(
+            checkAnnotationIsNotImmutable(
+                    new Lesson( EntitiesInstances.class )
+            )
+    );
+
+    public static final AtomicReference< Comment > COMMENT_ATOMIC_REFERENCE = generateAtomicEntity(
+            checkAnnotationIsNotImmutable(
+                    new Comment( EntitiesInstances.class )
+            )
+    );
+
 
     @SuppressWarnings( value = "объекты для работы с Request и Response" )
     public static final AtomicReference< Status > STATUS_ATOMIC_REFERENCE = generateAtomicEntity( Status.builder().build() );
@@ -89,7 +128,7 @@ public final class EntitiesInstances extends AnnotationInspector {
     );
 
     @SuppressWarnings( value = "хранит instance на все основные объекты" )
-    public static final UnmodifiableList< AtomicReference< ? extends EntityToCassandraConverter > > instancesList = new UnmodifiableList<>(
+    public static final UnmodifiableList< AtomicReference< ? extends EntityToPostgresConverter> > instancesList = new UnmodifiableList<>(
             List.of()
     );
 

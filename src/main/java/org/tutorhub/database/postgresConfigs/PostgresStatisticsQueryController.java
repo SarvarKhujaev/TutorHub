@@ -8,9 +8,9 @@ import org.tutorhub.interfaces.postgres.PostgresStatisticsQueryInterface;
 import org.tutorhub.inspectors.enttiesInspectors.EntitiesInstances;
 import org.tutorhub.inspectors.AnnotationInspector;
 
-import org.tutorhub.entities.postgres_stats_entities.PgStatIndex;
-import org.tutorhub.entities.postgres_stats_entities.PgStatTuple;
-import org.tutorhub.entities.postgres_stats_entities.PGStats;
+import org.tutorhub.entities.postgres.postgres_stats_entities.PgStatIndex;
+import org.tutorhub.entities.postgres.postgres_stats_entities.PgStatTuple;
+import org.tutorhub.entities.postgres.postgres_stats_entities.PGStats;
 
 import org.hibernate.stat.CacheRegionStatistics;
 import org.hibernate.Transaction;

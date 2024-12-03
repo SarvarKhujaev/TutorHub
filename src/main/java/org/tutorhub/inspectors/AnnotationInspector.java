@@ -20,11 +20,10 @@ import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
 import org.tutorhub.inspectors.dataTypesInpectors.UuidInspector;
 
 
-import org.tutorhub.interfaces.database.EntityToCassandraConverter;
+import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 import org.tutorhub.interfaces.kafka.KafkaEntitiesCommonMethods;
 import org.tutorhub.interfaces.services.ServiceCommonMethods;
 
-import org.tutorhub.constans.postgres_constants.PostgreSqlTables;
 import org.tutorhub.constans.kafka.KafkaTopics;
 import org.tutorhub.constans.errors.Errors;
 
@@ -101,7 +100,7 @@ public class AnnotationInspector extends CustomServiceCleaner {
     @lombok.NonNull
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_, _ -> !null" )
-    public static synchronized <T extends EntityToCassandraConverter> PostgreSqlTables getEntityKeyspaceOrTableName (
+    public static synchronized <T extends EntityToPostgresConverter> String getEntityKeyspaceOrTableName (
             @lombok.NonNull final T entity,
             final boolean isKeyspaceName
     ) {
@@ -337,7 +336,7 @@ public class AnnotationInspector extends CustomServiceCleaner {
     @lombok.NonNull
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> !null" )
-    protected static synchronized < T extends EntityToCassandraConverter > EntityAnnotations convertEntityToEntityAnnotation (
+    protected static synchronized < T extends EntityToPostgresConverter> EntityAnnotations convertEntityToEntityAnnotation (
             @lombok.NonNull final T entity
     ) {
         checkAnnotationInitialized( entity.getClass() );
@@ -372,7 +371,7 @@ public class AnnotationInspector extends CustomServiceCleaner {
     )
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> fail" )
-    protected static synchronized < T extends EntityToCassandraConverter > T checkAnnotationIsNotImmutable (
+    protected static synchronized < T extends EntityToPostgresConverter> T checkAnnotationIsNotImmutable (
             @lombok.NonNull final T object
     ) {
         Validate.isTrue(
@@ -401,7 +400,7 @@ public class AnnotationInspector extends CustomServiceCleaner {
     )
     @lombok.Synchronized
     protected static synchronized void checkAnnotationInitialized (
-            @lombok.NonNull final Class< ? extends EntityToCassandraConverter > object
+            @lombok.NonNull final Class< ? extends EntityToPostgresConverter> object
     ) {
         Validate.isTrue(
                 object.isAnnotationPresent( EntityAnnotations.class ),
@@ -448,7 +447,7 @@ public class AnnotationInspector extends CustomServiceCleaner {
     @lombok.NonNull
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_, _ -> !null" )
-    protected static synchronized <T extends EntityToCassandraConverter> Object getMethodReturnValue(
+    protected static synchronized <T extends EntityToPostgresConverter> Object getMethodReturnValue(
             @lombok.NonNull final Method method,
             @lombok.NonNull final T object
     ) {
@@ -476,7 +475,7 @@ public class AnnotationInspector extends CustomServiceCleaner {
     @lombok.NonNull
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_, _ -> fail" )
-    protected static synchronized <T extends EntityToCassandraConverter> Object getFieldReturnValue(
+    protected static synchronized <T extends EntityToPostgresConverter> Object getFieldReturnValue(
             @lombok.NonNull final Field field,
             @lombok.NonNull final T object
     ) {
@@ -491,7 +490,7 @@ public class AnnotationInspector extends CustomServiceCleaner {
     }
 
     @lombok.Synchronized
-    protected static synchronized <T extends EntityToCassandraConverter> void compareFieldWithParam (
+    protected static synchronized <T extends EntityToPostgresConverter> void compareFieldWithParam (
             @lombok.NonNull final Field field,
             @lombok.NonNull final T entity
     ) {

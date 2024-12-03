@@ -3,7 +3,7 @@ package org.tutorhub.inspectors.dataTypesInpectors;
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.LinksToDocs;
 
-import org.tutorhub.interfaces.database.EntityToCassandraConverter;
+import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 
 import org.tutorhub.inspectors.CollectionsInspector;
 import org.tutorhub.inspectors.AnnotationInspector;
@@ -90,7 +90,7 @@ public class StringOperations extends CollectionsInspector {
     @lombok.NonNull
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_, _ -> !null" )
-    protected final synchronized <T extends EntityToCassandraConverter> String getSuccessMessage (
+    protected final synchronized <T extends EntityToPostgresConverter> String getSuccessMessage (
             @lombok.NonNull final AtomicReference< T > entity,
             @lombok.NonNull final String operation
     ) {
@@ -106,7 +106,7 @@ public class StringOperations extends CollectionsInspector {
     @lombok.NonNull
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_, _ -> !null" )
-    protected final synchronized <T extends EntityToCassandraConverter> String getSuccessMessage (
+    protected final synchronized <T extends EntityToPostgresConverter> String getSuccessMessage (
             @lombok.NonNull final T entity,
             @lombok.NonNull final String operation
     ) {
@@ -136,7 +136,7 @@ public class StringOperations extends CollectionsInspector {
     @lombok.NonNull
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> !null" )
-    protected final synchronized <T extends EntityToCassandraConverter> String getFailMessage (
+    protected final synchronized <T extends EntityToPostgresConverter> String getFailMessage (
             @lombok.NonNull final AtomicReference< T > entity
     ) {
         return String.join(

@@ -53,14 +53,14 @@ public class TimeInspector extends Archive {
 
     @lombok.NonNull
     @lombok.Synchronized
-    protected final synchronized Date newDate () {
+    public static synchronized Date newDate () {
         return new Date();
     }
 
     @lombok.NonNull
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> !null" )
-    protected static synchronized Date newDate ( final long interval ) {
+    public static synchronized Date newDate ( final long interval ) {
         return new Date( interval );
     }
 
@@ -101,6 +101,6 @@ public class TimeInspector extends Archive {
     @lombok.NonNull
     @lombok.Synchronized
     protected final synchronized Date getExpirationDate () {
-        return new Date( this.newDate().getTime() + EXPIRATION_DATE );
+        return new Date( newDate().getTime() + EXPIRATION_DATE );
     }
 }

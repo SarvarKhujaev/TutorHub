@@ -128,7 +128,7 @@ public class HibernateConfigsAndOptions extends PostgresStatisticsQueryControlle
         operationsCount++;
     }
 
-    protected static boolean isBatchLimitNotOvercrowded () {
+    public static boolean isBatchLimitNotOvercrowded () {
         increaseOperationsCount();
         /*
         проверяем что количество операций не превысило

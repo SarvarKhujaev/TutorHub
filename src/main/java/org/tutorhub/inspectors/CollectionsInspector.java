@@ -44,7 +44,7 @@ public class CollectionsInspector extends UuidInspector {
 
     @lombok.NonNull
     @lombok.Synchronized
-    protected static synchronized <T> List<T> emptyList () {
+    public static synchronized <T> List<T> emptyList () {
         return new UnmodifiableList<T>( Collections.EMPTY_LIST );
     }
 

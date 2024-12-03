@@ -16,10 +16,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.*;
 
 import jakarta.validation.ValidatorFactory;
-import jakarta.persistence.FlushModeType;
 import jakarta.validation.Validation;
-
-import java.text.MessageFormat;
 
 public final class HibernateConnector extends HibernateConfigsAndOptions implements DatabaseCommonMethods {
     private final Session session;
@@ -161,50 +158,6 @@ public final class HibernateConnector extends HibernateConfigsAndOptions impleme
         transaction.commit();
 
         super.logging( transaction );
-    }
-
-    private synchronized void checkBatchLimit () {
-        if ( isBatchLimitNotOvercrowded() ) {
-            /*
-            если да, то освобождаем пространство в кеше
-            на уровне first-level cache
-
-            When you make new objects persistent, employ methods flush() and clear() to the session regularly,
-            to control the size of the first-level cache.
-             */
-            this.getSession().flush();
-        }
-    }
-
-    public synchronized void getWithNativeQuery () {
-        /*
-        To avoid the overhead of using ResultSetMetadata, or simply to be more explicit in what is returned, one can use addScalar():
-
-        Example;
-            List<Object[]> persons = session.createNativeQuery(
-                "SELECT * FROM Person", Object[].class)
-            .addScalar("id", StandardBasicTypes.LONG)
-            .addScalar("name", StandardBasicTypes.STRING)
-            .list();
-        */
-        super.analyze(
-                this.getSession().createNativeQuery(
-                        MessageFormat.format(
-                                """
-                                SELECT * FROM {0}.{1}
-                                WHERE id = {2};
-                                """,
-                                "entities",
-                                "orders",
-                                5
-                        ),
-                        Object[].class
-                ).addScalar( "id", Long.class )
-                        .addScalar( "total_order_sum", Long.class )
-                        .setFlushMode( FlushModeType.COMMIT )
-                        .getResultList(),
-                objects -> super.logging( objects[0] + " : " + objects[1] )
-        );
     }
 
     @Override

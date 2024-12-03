@@ -1,4 +1,4 @@
-package org.tutorhub.entities.postgres_stats_entities;
+package org.tutorhub.entities.postgres.postgres_stats_entities;
 
 public final class PgStatIndex {
     public long getVersion() {

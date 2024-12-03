@@ -1,7 +1,7 @@
 package org.tutorhub.inspectors.encryption;
 
 import org.tutorhub.inspectors.securityInspectors.PassayPasswordGenerator;
-import org.tutorhub.interfaces.database.EntityToCassandraConverter;
+import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 import org.tutorhub.inspectors.SerDes;
 
 import org.apache.commons.codec.binary.Hex;
@@ -116,7 +116,7 @@ public final class EncryptionInspector extends EncryptionParamsAndOptions {
     @lombok.NonNull
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> !null" )
-    public synchronized <T extends EntityToCassandraConverter> String encryptMessage (
+    public synchronized <T extends EntityToPostgresConverter> String encryptMessage (
             @lombok.NonNull final T entity
     ) {
         Validate.isTrue( super.objectIsNotNull( entity ), this.getClass().getName() );
