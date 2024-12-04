@@ -13,8 +13,10 @@ import org.tutorhub.constans.hibernate.HibernateCacheRegions;
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
 
-import org.tutorhub.entities.subject.Subject;
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
+
+import org.tutorhub.entities.educationTypes.EducationType;
+import org.tutorhub.entities.subject.Subject;
 import org.tutorhub.entities.group.Group;
 
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
@@ -237,6 +239,28 @@ public final class Student implements EntityToPostgresConverter {
             usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE
     )
     private final List< Subject > subjectList = CollectionsInspector.emptyList();
+
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REFRESH,
+            targetEntity = EducationType.class,
+            orphanRemoval = true
+    )
+    @OrderBy( value = "name DESC, createdDate DESC" )
+    @SuppressWarnings(
+            value = """
+                    Hibernate can also cache collections, and the @Cache annotation must be on added to the collection property.
+                    If the collection is made of value types (basic or embeddables mapped with @ElementCollection),
+                    the collection is stored as such.
+                    If the collection contains other entities (@OneToMany or @ManyToMany),
+                    the collection cache entry will store the entity identifiers only.
+                    """
+    )
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE
+    )
+    private final List< EducationType > educationTypeList = CollectionsInspector.emptyList();
 
     public Student () {}
 

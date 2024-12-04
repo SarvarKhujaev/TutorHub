@@ -1,7 +1,6 @@
 package org.tutorhub.entities.studyCenter;
 
 import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
-import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraints;
 
 import org.tutorhub.constans.postgres_constants.PostgreSqlFunctions;
 import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
@@ -14,9 +13,12 @@ import org.tutorhub.annotations.entity.object.EntityAnnotations;
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 
 import org.tutorhub.entities.educationDirection.EducationDirection;
+import org.tutorhub.entities.educationTypes.EducationType;
 import org.tutorhub.entities.address.Address;
 
+import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
+import org.tutorhub.inspectors.CollectionsInspector;
 import org.tutorhub.inspectors.AnnotationInspector;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -42,10 +44,7 @@ import java.util.List;
 
         comment = "учебный центр"
 )
-@Check(
-        name = PostgresConstraints.TEACHER_TABLE_PHONE_NUMBER_CONSTRAINT,
-        constraints = PostgresConstraintsValues.PHONE_NUMBER_CONSTRAINT
-)
+@Check( constraints = PostgresConstraintsValues.PHONE_NUMBER_CONSTRAINT )
 public final class StudyCenter implements EntityToPostgresConverter {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
@@ -125,7 +124,7 @@ public final class StudyCenter implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @NotBlank( message = ErrorMessages.NULL_VALUE )
     @Column(
-            columnDefinition = "VARCHAR( 13 ) DEFAULT '+9989771221' || random_between( 10, 100 )",
+            columnDefinition = "VARCHAR( 13 )",
             nullable = false,
             unique = true,
             length = 13,
@@ -134,23 +133,7 @@ public final class StudyCenter implements EntityToPostgresConverter {
     @PartitionKey
     private String phoneNumber;
 
-    @SuppressWarnings( value = "название направлений по которым проводятся занятия" )
-    @NotNull( message = ErrorMessages.NULL_VALUE )
-    @OneToMany(
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.REFRESH,
-            targetEntity = EducationDirection.class,
-            orphanRemoval = true
-    )
-    @Column( name = "education_directions" )
-    @OrderBy( value = "directionName DESC, createdDate DESC" )
-    @JoinColumn( name = "study_center_id" )
-    @org.hibernate.annotations.Cache(
-            usage = CacheConcurrencyStrategy.READ_ONLY
-    )
-    private List< EducationDirection > educationDirections;
-
-    @SuppressWarnings( value = "список учителей центра" )
+    @SuppressWarnings( value = "список курсов центра" )
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToMany(
             fetch = FetchType.LAZY,
@@ -159,11 +142,44 @@ public final class StudyCenter implements EntityToPostgresConverter {
             orphanRemoval = true
     )
     @OrderBy( value = "name DESC, createdDate DESC" )
-    @JoinColumn( name = "course_id" )
     @org.hibernate.annotations.Cache(
             usage = CacheConcurrencyStrategy.READ_ONLY
     )
-    private List< Course > teacherList;
+    @JoinTable(
+            name = PostgreSqlTables.STUDY_CENTER + PostgreSqlTables.COURSES,
+            joinColumns = @JoinColumn( name = PostgreSqlTables.STUDY_CENTER + StringOperations.ENTITY_ID ),
+            inverseJoinColumns = @JoinColumn( name = PostgreSqlTables.COURSES + StringOperations.ENTITY_ID )
+    )
+    private List< Course > courseList = CollectionsInspector.emptyList();
+
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REFRESH,
+            mappedBy = PostgreSqlTables.EDUCATION_TYPES,
+            targetEntity = EducationType.class,
+            orphanRemoval = true
+    )
+    @OrderBy( value = "name DESC, createdDate DESC" )
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE
+    )
+    private final List< EducationType > educationTypeList = CollectionsInspector.emptyList();
+
+    @SuppressWarnings( value = "название направлений по которым проводятся занятия" )
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.PERSIST,
+            mappedBy = PostgreSqlTables.EDUCATION_DIRECTIONS,
+            targetEntity = EducationDirection.class,
+            orphanRemoval = true
+    )
+    @OrderBy( value = "directionName DESC, createdDate DESC" )
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_ONLY
+    )
+    private List< EducationDirection > educationDirections = CollectionsInspector.emptyList();
 
     public StudyCenter () {}
 

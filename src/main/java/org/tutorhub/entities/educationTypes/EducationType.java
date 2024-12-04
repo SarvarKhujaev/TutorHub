@@ -1,4 +1,4 @@
-package org.tutorhub.entities.subject;
+package org.tutorhub.entities.educationTypes;
 
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
@@ -13,30 +13,36 @@ import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
 import org.tutorhub.inspectors.AnnotationInspector;
 
+import org.hibernate.annotations.PartitionKey;
+import org.hibernate.annotations.Immutable;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.*;
 
-import org.hibernate.annotations.PartitionKey;
-import org.hibernate.annotations.Immutable;
-
 import java.util.Date;
 
-@Entity( name = PostgreSqlTables.SUBJECT )
+@Entity( name = PostgreSqlTables.EDUCATION_TYPES )
 @Table(
-        name = PostgreSqlTables.SUBJECT,
+        name = PostgreSqlTables.EDUCATION_TYPES,
         schema = PostgreSqlSchema.ENTITIES
 )
 @EntityAnnotations(
-        name = PostgreSqlTables.SUBJECT,
-        tableName = PostgreSqlTables.SUBJECT,
+        name = PostgreSqlTables.EDUCATION_TYPES,
+        tableName = PostgreSqlTables.EDUCATION_TYPES,
         keysapceName = PostgreSqlSchema.ENTITIES,
 
-        comment = "данные о курсах которые проводят в учебном центре"
+        comment = """
+                отвечает за тип обучения которая предпочтительна
+                для студента или учителя
+
+                Например:
+                    online, offline и т.д
+                """
 )
-public final class Subject implements EntityToPostgresConverter {
+public final class EducationType implements EntityToPostgresConverter {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private long id;
@@ -54,24 +60,25 @@ public final class Subject implements EntityToPostgresConverter {
 
     @Size(
             min = 5,
-            max = 200,
+            max = 50,
             message = ErrorMessages.VALUE_OUT_OF_RANGE
     )
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @NotBlank( message = ErrorMessages.NULL_VALUE )
     @NotEmpty( message = ErrorMessages.NULL_VALUE )
     @Column(
-            length = 200,
-            unique = true,
+            columnDefinition = "VARCHAR( 50 )",
+            updatable = false,
             nullable = false,
-            columnDefinition = "VARCHAR( 200 )"
+            unique = true,
+            length = 50
     )
     private String name;
 
-    public Subject () {}
+    public EducationType () {}
 
     @EntityConstructorAnnotation
-    public Subject ( @lombok.NonNull final Class<?> instance ) {
-        AnnotationInspector.checkCallerPermission( instance, Subject.class );
+    public EducationType( @lombok.NonNull final Class<?> instance ) {
+        AnnotationInspector.checkCallerPermission( instance, EducationType.class );
     }
 }

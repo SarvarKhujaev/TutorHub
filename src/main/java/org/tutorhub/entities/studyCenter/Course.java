@@ -10,6 +10,7 @@ import org.tutorhub.constans.entities_constants.ErrorMessages;
 
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 
+import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
 import org.tutorhub.inspectors.AnnotationInspector;
 
@@ -22,10 +23,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.PartitionKey;
 import org.hibernate.annotations.Immutable;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity( name = PostgreSqlTables.COURSES )
 @Table(
@@ -71,6 +74,7 @@ public final class Course implements EntityToPostgresConverter {
     private String name;
 
     @SuppressWarnings( value = "каждый курс связан с одним конкретным предметом" )
+    @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToOne(
             targetEntity = Subject.class,
             cascade = CascadeType.PERSIST,
@@ -79,12 +83,23 @@ public final class Course implements EntityToPostgresConverter {
     private Subject subject;
 
     @SuppressWarnings( value = "каждый курс связан с одним учителем который отвечает за этот курс" )
-    @OneToOne(
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REFRESH,
             targetEntity = Teacher.class,
-            cascade = CascadeType.PERSIST,
-            fetch = FetchType.LAZY
+            orphanRemoval = true
     )
-    private Teacher teacher;
+    @JoinTable(
+            name = PostgreSqlTables.COURSES + PostgreSqlTables.TEACHERS,
+            joinColumns = @JoinColumn( name = PostgreSqlTables.COURSES + StringOperations.ENTITY_ID ),
+            inverseJoinColumns = @JoinColumn( name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID )
+    )
+    @OrderBy( value = "name DESC, createdDate DESC" )
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE
+    )
+    private List< Teacher > teacherList;
 
     public Course () {}
 

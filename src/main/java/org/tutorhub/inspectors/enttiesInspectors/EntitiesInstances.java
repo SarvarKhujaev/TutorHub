@@ -2,24 +2,24 @@ package org.tutorhub.inspectors.enttiesInspectors;
 
 import org.tutorhub.constans.postgres_constants.postgres_extensions.PostgresExtensions;
 import org.tutorhub.annotations.entity.fields.WeakReferenceAnnotation;
-
-import org.tutorhub.entities.address.Address;
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 
 import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
 import org.tutorhub.inspectors.AnnotationInspector;
 
 import org.tutorhub.entities.educationDirection.EducationDirection;
-import org.tutorhub.entities.subject.Subject;
-
-import org.tutorhub.entities.studyCenter.StudyCenter;
-import org.tutorhub.entities.studyCenter.Course;
-
+import org.tutorhub.entities.educationTypes.EducationType;
 import org.tutorhub.entities.student.Student;
 import org.tutorhub.entities.teacher.Teacher;
 import org.tutorhub.entities.comment.Comment;
 import org.tutorhub.entities.lesson.Lesson;
 import org.tutorhub.entities.group.Group;
+
+import org.tutorhub.entities.studyCenter.StudyCenter;
+import org.tutorhub.entities.studyCenter.Course;
+
+import org.tutorhub.entities.address.Address;
+import org.tutorhub.entities.subject.Subject;
 
 import org.tutorhub.response.ApiResponseModel;
 import org.tutorhub.response.Status;
@@ -118,6 +118,12 @@ public final class EntitiesInstances extends AnnotationInspector {
             )
     );
 
+    public static final AtomicReference< EducationType > EDUCATION_TYPE_ATOMIC_REFERENCE = generateAtomicEntity(
+            checkAnnotationIsNotImmutable(
+                    new EducationType( EntitiesInstances.class )
+            )
+    );
+
 
     @SuppressWarnings( value = "объекты для работы с Request и Response" )
     public static final AtomicReference< Status > STATUS_ATOMIC_REFERENCE = generateAtomicEntity( Status.builder().build() );
@@ -169,14 +175,15 @@ public final class EntitiesInstances extends AnnotationInspector {
             List.of(
                     GROUP_ATOMIC_REFERENCE,
                     LESSON_ATOMIC_REFERENCE,
+                    COURSE_ATOMIC_REFERENCE,
                     COMMENT_ATOMIC_REFERENCE,
                     TEACHER_ATOMIC_REFERENCE,
                     STUDENT_ATOMIC_REFERENCE,
-                    STUDY_CENTER_ATOMIC_REFERENCE,
-                    EDUCATION_DIRECTION_ATOMIC_REFERENCE,
-                    COURSE_ATOMIC_REFERENCE,
                     SUBJECT_ATOMIC_REFERENCE,
-                    ADDRESS_ATOMIC_REFERENCE
+                    ADDRESS_ATOMIC_REFERENCE,
+                    STUDY_CENTER_ATOMIC_REFERENCE,
+                    EDUCATION_TYPE_ATOMIC_REFERENCE,
+                    EDUCATION_DIRECTION_ATOMIC_REFERENCE
             )
     );
 

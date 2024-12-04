@@ -15,6 +15,7 @@ import org.tutorhub.constans.hibernate.HibernateCacheRegions;
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
 
+import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
@@ -126,10 +127,10 @@ public final class Group implements EntityToPostgresConverter {
     @PartitionKey
     @ManyToOne(
             targetEntity = Teacher.class,
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.REFRESH,
             fetch = FetchType.LAZY
     )
-    @JoinColumn( name = "teacher_id" )
+    @JoinColumn( name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID )
     private Teacher teacher;
 
     @SuppressWarnings( value = "название направления по которому проводятся занятия" )
@@ -145,7 +146,6 @@ public final class Group implements EntityToPostgresConverter {
 
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OrderBy( value = "lessonDate DESC, lessonName ASC" )
-    @Column( name = "lesson_list" )
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,

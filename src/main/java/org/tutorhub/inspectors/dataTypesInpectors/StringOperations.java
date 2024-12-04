@@ -35,6 +35,8 @@ public class StringOperations extends CollectionsInspector {
         AnnotationInspector.checkAnnotationIsImmutable( StringOperations.class );
     }
 
+    public final static String ENTITY_ID = ".";
+
     public final static String DOT = ".";
     public final static String EMPTY = "";
     public final static String SPACE = " ";
@@ -51,6 +53,21 @@ public class StringOperations extends CollectionsInspector {
     public final static String AVRO_DATE_PATTERN = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$";
 
     public final static String SQL_INJECTION_FILES_PATH = "src/main/resources/sql_injections/";
+
+    public static String generateJoinTable (
+            @lombok.NonNull String firstTable,
+            @lombok.NonNull String secondTable
+    ) {
+        return String.join(
+                EMPTY,
+                String.join(
+                        "_AND_",
+                        firstTable,
+                        secondTable
+                ),
+                "_JOIN_TABLE"
+        );
+    }
 
     @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> _" )
