@@ -1,10 +1,9 @@
 package org.tutorhub.constans.entities_constants;
 
-/*
-https://www.geeksforgeeks.org/hibernate-validator-with-example/
+import org.tutorhub.annotations.LinksToDocs;
 
-хранит сообщения об ошибках при работе с параметрами таблиц
-*/
+@SuppressWarnings( value = "хранит сообщения об ошибках при работе с параметрами таблиц" )
+@LinksToDocs( links = "https://www.geeksforgeeks.org/hibernate-validator-with-example/" )
 public final class ErrorMessages {
     public static final String NULL_VALUE = "VALUE CANNOT BE EMPTY";
 

@@ -14,6 +14,7 @@ import org.tutorhub.constans.entities_constants.LessonStatus;
 import org.tutorhub.constans.hibernate.HibernateCacheRegions;
 
 import org.tutorhub.entities.comment.Comment;
+import org.tutorhub.entities.teacher.Teacher;
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
 import org.tutorhub.inspectors.CollectionsInspector;
 import org.tutorhub.inspectors.AnnotationInspector;
@@ -118,6 +119,9 @@ public final class Lesson implements EntityToPostgresConverter {
     )
     @PartitionKey
     private LessonStatus lessonStatus = LessonStatus.CREATED;
+
+    @OneToOne( fetch = FetchType.LAZY )
+    private Teacher teacher;
 
     public Lesson() {}
 

@@ -1,7 +1,11 @@
 package org.tutorhub.entities.educationDirection;
 
+import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
+
+import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
+import org.tutorhub.inspectors.AnnotationInspector;
 
 import org.tutorhub.constans.postgres_constants.PostgreSqlFunctions;
 import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
@@ -17,7 +21,6 @@ import org.hibernate.annotations.Immutable;
 
 import java.util.Date;
 
-@SuppressWarnings( value = "название направления по которым проводятся занятия" )
 @Entity( name = PostgreSqlTables.EDUCATION_DIRECTIONS )
 @Table(
         name = PostgreSqlTables.EDUCATION_DIRECTIONS,
@@ -26,9 +29,11 @@ import java.util.Date;
 @EntityAnnotations(
         name = PostgreSqlTables.EDUCATION_DIRECTIONS,
         tableName = PostgreSqlTables.EDUCATION_DIRECTIONS,
-        keysapceName = PostgreSqlSchema.ENTITIES
+        keysapceName = PostgreSqlSchema.ENTITIES,
+
+        comment = "название направления по которым проводятся занятия"
 )
-public final class EducationDirection {
+public final class EducationDirection implements EntityToPostgresConverter {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private long id;
@@ -61,5 +66,10 @@ public final class EducationDirection {
     )
     private final Date createdDate = TimeInspector.newDate();
 
-    public EducationDirection() {}
+    public EducationDirection () {}
+
+    @EntityConstructorAnnotation
+    public EducationDirection ( @lombok.NonNull final Class<?> instance ) {
+        AnnotationInspector.checkCallerPermission( instance, EducationDirection.class );
+    }
 }

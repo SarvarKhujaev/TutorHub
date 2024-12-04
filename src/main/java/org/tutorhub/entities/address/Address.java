@@ -1,4 +1,7 @@
-package org.tutorhub.entities.studyCenter;
+package org.tutorhub.entities.address;
+
+import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
+import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraints;
 
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
@@ -13,8 +16,9 @@ import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
 import org.tutorhub.inspectors.AnnotationInspector;
 
-import org.tutorhub.entities.teacher.Teacher;
-import org.tutorhub.entities.subject.Subject;
+import org.hibernate.annotations.PartitionKey;
+import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Check;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -22,24 +26,25 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.*;
 
-import org.hibernate.annotations.PartitionKey;
-import org.hibernate.annotations.Immutable;
-
 import java.util.Date;
 
-@Entity( name = PostgreSqlTables.COURSES )
+@Entity( name = PostgreSqlTables.ADDRESS )
 @Table(
-        name = PostgreSqlTables.COURSES,
+        name = PostgreSqlTables.ADDRESS,
         schema = PostgreSqlSchema.ENTITIES
 )
 @EntityAnnotations(
-        name = PostgreSqlTables.COURSES,
-        tableName = PostgreSqlTables.COURSES,
+        name = PostgreSqlTables.ADDRESS,
+        tableName = PostgreSqlTables.ADDRESS,
         keysapceName = PostgreSqlSchema.ENTITIES,
 
-        comment = "данные о курсах которые проводят в учебном центре"
+        comment = "отвечает за хранение данных об адресе"
 )
-public final class Course implements EntityToPostgresConverter {
+@Check(
+        name = PostgresConstraints.ADDRESS_TABLE_LOCATION_CONSTRAINT,
+        constraints = PostgresConstraintsValues.ADDRESS_TABLE_LOCATION_CONSTRAINT
+)
+public final class Address implements EntityToPostgresConverter {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private long id;
@@ -63,33 +68,35 @@ public final class Course implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @NotBlank( message = ErrorMessages.NULL_VALUE )
     @NotEmpty( message = ErrorMessages.NULL_VALUE )
+    @PartitionKey
     @Column(
             length = 200,
+            unique = true,
             nullable = false,
             columnDefinition = "VARCHAR( 200 )"
     )
-    private String name;
+    private String address;
 
-    @SuppressWarnings( value = "каждый курс связан с одним конкретным предметом" )
-    @OneToOne(
-            targetEntity = Subject.class,
-            cascade = CascadeType.PERSIST,
-            fetch = FetchType.LAZY
+    @Size(
+            min = 60,
+            max = 70,
+            message = ErrorMessages.VALUE_OUT_OF_RANGE
     )
-    private Subject subject;
+    @Column
+    private double latitude;
 
-    @SuppressWarnings( value = "каждый курс связан с одним учителем который отвечает за этот курс" )
-    @OneToOne(
-            targetEntity = Teacher.class,
-            cascade = CascadeType.PERSIST,
-            fetch = FetchType.LAZY
+    @Size(
+            min = 60,
+            max = 70,
+            message = ErrorMessages.VALUE_OUT_OF_RANGE
     )
-    private Teacher teacher;
+    @Column
+    private double longitude;
 
-    public Course () {}
+    public Address () {}
 
     @EntityConstructorAnnotation
-    public Course ( @lombok.NonNull final Class<?> instance ) {
-        AnnotationInspector.checkCallerPermission( instance, Course.class );
+    public Address ( @lombok.NonNull final Class<?> instance ) {
+        AnnotationInspector.checkCallerPermission( instance, Address.class );
     }
 }

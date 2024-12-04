@@ -46,12 +46,12 @@ import java.util.List;
         region = HibernateCacheRegions.STUDENT_REGION
 )
 @Check(
-        name = PostgresConstraints.STUDENT_MARKS_TABLE_CONSTRAINT,
-        constraints = PostgresConstraintsValues.STUDENT_MARKS_TABLE_CONSTRAINT_VALUE
+        name = PostgresConstraints.TEACHER_TABLE_CONSTRAINT,
+        constraints = PostgresConstraintsValues.AGE_CONSTRAINT
 )
 @Check(
         name = PostgresConstraints.TEACHER_TABLE_PHONE_NUMBER_CONSTRAINT,
-        constraints = PostgresConstraintsValues.PHONE_NUMBER_CONSTRAINT_VALUE
+        constraints = PostgresConstraintsValues.PHONE_NUMBER_CONSTRAINT
 )
 @EntityAnnotations(
         name = "Student",

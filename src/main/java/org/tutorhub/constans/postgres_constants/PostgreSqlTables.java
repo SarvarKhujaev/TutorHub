@@ -22,7 +22,11 @@ public final class PostgreSqlTables {
 
     public final static String EDUCATION_DIRECTIONS = "EDUCATION_DIRECTIONS";
 
+    public final static String HOMEWORK_MARKS = "HOMEWORK_MARKS";
+    public final static String HOMEWORK = "HOMEWORK";
+
     public final static String COMMENTS = "COMMENTS";
+    public final static String ADDRESS = "ADDRESS";
     public final static String LESSONS = "LESSONS";
     public final static String GROUPS = "GROUPS";
 }

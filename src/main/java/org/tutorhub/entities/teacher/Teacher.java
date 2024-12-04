@@ -1,35 +1,34 @@
 package org.tutorhub.entities.teacher;
 
-import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
-import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraints;
-
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
 
-import org.tutorhub.inspectors.AnnotationInspector;
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 import org.tutorhub.entities.group.Group;
 
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
 import org.tutorhub.inspectors.CollectionsInspector;
+import org.tutorhub.inspectors.AnnotationInspector;
+
+import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
+import org.tutorhub.constans.entities_constants.ErrorMessages;
+import org.tutorhub.constans.hibernate.HibernateCacheRegions;
 
 import org.tutorhub.constans.postgres_constants.PostgreSqlFunctions;
 import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
 import org.tutorhub.constans.postgres_constants.PostgreSqlTables;
 
-import org.tutorhub.constans.entities_constants.ErrorMessages;
-import org.tutorhub.constans.hibernate.HibernateCacheRegions;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
 import jakarta.persistence.*;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.PartitionKey;
-import org.hibernate.annotations.Immutable;
-import org.hibernate.annotations.Check;
+import org.hibernate.annotations.*;
 
 import java.util.Date;
 import java.util.List;
@@ -44,16 +43,15 @@ import java.util.List;
         usage = CacheConcurrencyStrategy.READ_WRITE,
         region = HibernateCacheRegions.TEACHER_REGION
 )
-@Check(
-        name = PostgresConstraints.TEACHER_TABLE_CONSTRAINT,
-        constraints = PostgresConstraintsValues.TEACHER_TABLE_CONSTRAINT_VALUE
-)
-@Check(
-        name = PostgresConstraints.TEACHER_TABLE_PHONE_NUMBER_CONSTRAINT,
-        constraints = PostgresConstraintsValues.PHONE_NUMBER_CONSTRAINT_VALUE
+@Checks(
+        value = {
+                @Check( constraints = PostgresConstraintsValues.AGE_CONSTRAINT ),
+                @Check( constraints = PostgresConstraintsValues.EXPERIENCE_CONSTRAINT ),
+                @Check( constraints = PostgresConstraintsValues.PHONE_NUMBER_CONSTRAINT )
+        }
 )
 @EntityAnnotations(
-        name = "Teacher",
+        name = PostgreSqlTables.TEACHERS,
         tableName = PostgreSqlTables.TEACHERS,
         keysapceName = PostgreSqlSchema.ENTITIES
 )
@@ -79,6 +77,22 @@ public final class Teacher implements EntityToPostgresConverter {
             columnDefinition = "SMALLINT DEFAULT 18"
     )
     private byte age = 18;
+
+    @Size( min = 1, max = 5, message = ErrorMessages.VALUE_OUT_OF_RANGE )
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @Column(
+            nullable = false,
+            columnDefinition = "SMALLINT DEFAULT 5"
+    )
+    private byte rating = 5;
+
+    @SuppressWarnings( value = "количество опыта в годах" )
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @Column(
+            nullable = false,
+            columnDefinition = "SMALLINT"
+    )
+    private byte experience = 5;
 
     @Size(
             min = 5,
@@ -111,6 +125,20 @@ public final class Teacher implements EntityToPostgresConverter {
     private String email;
 
     @Size(
+            min = 5,
+            max = 50,
+            message = ErrorMessages.VALUE_OUT_OF_RANGE
+    )
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @NotBlank( message = ErrorMessages.NULL_VALUE )
+    @Column(
+            columnDefinition = "VARCHAR( 50 )",
+            nullable = false,
+            length = 50
+    )
+    private String surname;
+
+    @Size(
             min = 13,
             max = 13,
             message = ErrorMessages.VALUE_OUT_OF_RANGE
@@ -126,20 +154,6 @@ public final class Teacher implements EntityToPostgresConverter {
     )
     @PartitionKey
     private String phoneNumber;
-
-    @Size(
-            min = 5,
-            max = 50,
-            message = ErrorMessages.VALUE_OUT_OF_RANGE
-    )
-    @NotNull( message = ErrorMessages.NULL_VALUE )
-    @NotBlank( message = ErrorMessages.NULL_VALUE )
-    @Column(
-            columnDefinition = "VARCHAR( 50 )",
-            nullable = false,
-            length = 50
-    )
-    private String surname;
 
     @Size(
             min = 5,
@@ -192,13 +206,11 @@ public final class Teacher implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToMany(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.REFRESH,
+            cascade = CascadeType.ALL,
             targetEntity = Group.class,
             orphanRemoval = true
     )
-    @Column( name = "group_list" )
     @OrderBy( value = "groupName DESC, createdDate DESC" )
-    @JoinColumn( name = "teacher_id" )
     @SuppressWarnings(
             value = """
                     Hibernate can also cache collections, and the @Cache annotation must be on added to the collection property.

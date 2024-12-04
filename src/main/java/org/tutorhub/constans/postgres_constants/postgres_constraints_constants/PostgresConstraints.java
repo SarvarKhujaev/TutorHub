@@ -9,5 +9,6 @@ public final class PostgresConstraints {
     public static final String TEACHER_TABLE_CONSTRAINT = "TEACHER_TABLE_CONSTRAINT";
     public static final String HOMEWORK_TABLE_CONSTRAINT = "HOMEWORK_TABLE_CONSTRAINT";
     public static final String STUDENT_MARKS_TABLE_CONSTRAINT = "STUDENT_MARKS_TABLE_CONSTRAINT";
+    public static final String ADDRESS_TABLE_LOCATION_CONSTRAINT = "PHONE_NUMBER_CONSTRAINT";
     public static final String TEACHER_TABLE_PHONE_NUMBER_CONSTRAINT = "PHONE_NUMBER_CONSTRAINT";
 }

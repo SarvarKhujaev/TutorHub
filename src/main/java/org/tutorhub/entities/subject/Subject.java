@@ -1,12 +1,17 @@
 package org.tutorhub.entities.subject;
 
+import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
+import org.tutorhub.annotations.entity.object.EntityAnnotations;
+
 import org.tutorhub.constans.postgres_constants.PostgreSqlFunctions;
 import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
 import org.tutorhub.constans.postgres_constants.PostgreSqlTables;
-
-import org.tutorhub.annotations.entity.object.EntityAnnotations;
-import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
 import org.tutorhub.constans.entities_constants.ErrorMessages;
+
+import org.tutorhub.interfaces.database.EntityToPostgresConverter;
+
+import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
+import org.tutorhub.inspectors.AnnotationInspector;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -31,7 +36,7 @@ import java.util.Date;
 
         comment = "данные о курсах которые проводят в учебном центре"
 )
-public final class Subject {
+public final class Subject implements EntityToPostgresConverter {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private long id;
@@ -62,4 +67,11 @@ public final class Subject {
             columnDefinition = "VARCHAR( 200 )"
     )
     private String name;
+
+    public Subject () {}
+
+    @EntityConstructorAnnotation
+    public Subject ( @lombok.NonNull final Class<?> instance ) {
+        AnnotationInspector.checkCallerPermission( instance, Subject.class );
+    }
 }

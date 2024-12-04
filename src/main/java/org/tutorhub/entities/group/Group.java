@@ -1,5 +1,6 @@
 package org.tutorhub.entities.group;
 
+import jakarta.validation.constraints.NotEmpty;
 import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
 import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraints;
 
@@ -99,6 +100,7 @@ public final class Group implements EntityToPostgresConverter {
     )
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @NotBlank( message = ErrorMessages.NULL_VALUE )
+    @NotEmpty( message = ErrorMessages.NULL_VALUE )
     @Column(
             columnDefinition = "VARCHAR( 50 )",
             updatable = false,
@@ -120,27 +122,14 @@ public final class Group implements EntityToPostgresConverter {
     )
     private byte maxStudentsNumber = 3;
 
-    @SuppressWarnings(
-            value = """
-                    текущее количество студентов
-                    не может быть боьше параметра maxStudentsNumber
-                    """
-    )
-    @NotNull( message = ErrorMessages.NULL_VALUE )
-    @Column(
-            columnDefinition = "SMALLINT DEFAULT 0",
-            nullable = false,
-            name = "students_number"
-    )
-    private byte studentsNumber = 0;
-
     @SuppressWarnings( value = "преподаватель группы" )
     @PartitionKey
-    @OneToOne(
+    @ManyToOne(
             targetEntity = Teacher.class,
             cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY
     )
+    @JoinColumn( name = "teacher_id" )
     private Teacher teacher;
 
     @SuppressWarnings( value = "название направления по которому проводятся занятия" )
