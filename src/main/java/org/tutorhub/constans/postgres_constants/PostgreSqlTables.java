@@ -25,8 +25,10 @@ public final class PostgreSqlTables {
     public final static String EDUCATION_DIRECTIONS = "EDUCATION_DIRECTIONS";
     public final static String EDUCATION_TYPES = "EDUCATION_TYPES";
 
-    public final static String HOMEWORK_MARKS = "HOMEWORK_MARKS";
+    public final static String SOLVED_HOMEWORKS = "SOLVED_HOMEWORKS";
     public final static String HOMEWORK = "HOMEWORK";
+
+    public final static String HOMEWORK_MARKS = "HOMEWORK_MARKS";
 
     public final static String LESSON_NOTES = "LESSON_NOTES";
     public final static String LESSONS = "LESSONS";

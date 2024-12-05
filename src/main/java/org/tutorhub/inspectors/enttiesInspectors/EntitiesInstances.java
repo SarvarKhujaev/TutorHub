@@ -2,6 +2,7 @@ package org.tutorhub.inspectors.enttiesInspectors;
 
 import org.tutorhub.constans.postgres_constants.postgres_extensions.PostgresExtensions;
 import org.tutorhub.annotations.entity.fields.WeakReferenceAnnotation;
+import org.tutorhub.entities.markAndRating.HomeworkMark;
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 
 import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
@@ -9,6 +10,9 @@ import org.tutorhub.inspectors.AnnotationInspector;
 
 import org.tutorhub.entities.educationDirection.EducationDirection;
 import org.tutorhub.entities.educationTypes.EducationType;
+
+import org.tutorhub.entities.homework.SolvedHomework;
+import org.tutorhub.entities.homework.Homework;
 
 import org.tutorhub.entities.student.Student;
 import org.tutorhub.entities.teacher.Teacher;
@@ -132,6 +136,24 @@ public final class EntitiesInstances extends AnnotationInspector {
             )
     );
 
+    public static final AtomicReference< Homework > HOMEWORK_ATOMIC_REFERENCE = generateAtomicEntity(
+            checkAnnotationIsNotImmutable(
+                    new Homework( EntitiesInstances.class )
+            )
+    );
+
+    public static final AtomicReference< SolvedHomework > SOLVED_HOMEWORK_ATOMIC_REFERENCE = generateAtomicEntity(
+            checkAnnotationIsNotImmutable(
+                    new SolvedHomework( EntitiesInstances.class )
+            )
+    );
+
+    public static final AtomicReference< HomeworkMark > HOMEWORK_MARK_ATOMIC_REFERENCE = generateAtomicEntity(
+            checkAnnotationIsNotImmutable(
+                    new HomeworkMark( EntitiesInstances.class )
+            )
+    );
+
 
     @SuppressWarnings( value = "объекты для работы с Request и Response" )
     public static final AtomicReference< Status > STATUS_ATOMIC_REFERENCE = generateAtomicEntity( Status.builder().build() );
@@ -189,9 +211,12 @@ public final class EntitiesInstances extends AnnotationInspector {
                     STUDENT_ATOMIC_REFERENCE,
                     SUBJECT_ATOMIC_REFERENCE,
                     ADDRESS_ATOMIC_REFERENCE,
+                    HOMEWORK_ATOMIC_REFERENCE,
                     STUDY_CENTER_ATOMIC_REFERENCE,
                     LESSON_NOTES_ATOMIC_REFERENCE,
+                    HOMEWORK_MARK_ATOMIC_REFERENCE,
                     EDUCATION_TYPE_ATOMIC_REFERENCE,
+                    SOLVED_HOMEWORK_ATOMIC_REFERENCE,
                     EDUCATION_DIRECTION_ATOMIC_REFERENCE
             )
     );

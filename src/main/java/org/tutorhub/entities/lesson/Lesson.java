@@ -10,7 +10,7 @@ import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
 import org.tutorhub.constans.postgres_constants.PostgreSqlTables;
 
 import org.tutorhub.constans.entities_constants.ErrorMessages;
-import org.tutorhub.constans.entities_constants.LessonStatus;
+import org.tutorhub.constans.entities_constants.lesson.LessonStatus;
 
 import org.tutorhub.constans.hibernate.HibernateCacheRegions;
 
@@ -88,6 +88,7 @@ public final class Lesson implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToOne(
             targetEntity = EducationType.class,
+            mappedBy = PostgreSqlTables.LESSONS,
             cascade = CascadeType.PERSIST,
             fetch = FetchType.EAGER
     )
