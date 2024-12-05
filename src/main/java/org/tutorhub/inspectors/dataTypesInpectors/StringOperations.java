@@ -35,7 +35,7 @@ public class StringOperations extends CollectionsInspector {
         AnnotationInspector.checkAnnotationIsImmutable( StringOperations.class );
     }
 
-    public final static String ENTITY_ID = ".";
+    public final static String ENTITY_ID = "_ID";
 
     public final static String DOT = ".";
     public final static String EMPTY = "";

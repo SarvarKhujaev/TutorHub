@@ -1,7 +1,7 @@
 package org.tutorhub.constans.postgres_constants.postgres_constraints_constants;
 
 public final class PostgresConstraintsValues {
-    public static final String GROUP_TABLE_CONSTRAINT_VALUE = """
+    public static final String STUDENTS_COUNT_IN_GROUP_TABLE_CONSTRAINT = """
             max_students_number >= 3 AND students_number >= 0 AND students_number < max_students_number
             """;
 
@@ -10,7 +10,7 @@ public final class PostgresConstraintsValues {
             """;
 
     public static final String AGE_CONSTRAINT = """
-            age >= 18 AND age <= 80
+            age >= 5
             """;
 
     public static final String EXPERIENCE_CONSTRAINT = """

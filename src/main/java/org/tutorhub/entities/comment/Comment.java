@@ -1,7 +1,6 @@
 package org.tutorhub.entities.comment;
 
 import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
-import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraints;
 
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
@@ -45,10 +44,7 @@ import java.util.Date;
         usage = CacheConcurrencyStrategy.READ_ONLY,
         region = HibernateCacheRegions.COMMENT_REGION
 )
-@Check(
-        name = PostgresConstraints.COMMENT_TABLE_CONSTRAINT,
-        constraints = PostgresConstraintsValues.COMMENT_TABLE_CONSTRAINT_VALUE
-)
+@Check( constraints = PostgresConstraintsValues.COMMENT_TABLE_CONSTRAINT_VALUE )
 @EntityAnnotations(
         name = PostgreSqlTables.COMMENTS,
         tableName = PostgreSqlTables.COMMENTS,
@@ -70,14 +66,6 @@ public final class Comment implements EntityToPostgresConverter {
     )
     private final Date createdDate = TimeInspector.newDate();
 
-    @Size(
-            min = 5,
-            max = 200,
-            message = ErrorMessages.VALUE_OUT_OF_RANGE
-    )
-    @NotNull( message = ErrorMessages.NULL_VALUE )
-    @NotBlank( message = ErrorMessages.NULL_VALUE )
-    @NotEmpty( message = ErrorMessages.NULL_VALUE )
     @Column(
             length = 200,
             nullable = false,
@@ -85,6 +73,7 @@ public final class Comment implements EntityToPostgresConverter {
     )
     private String comment;
 
+    @Size( min = 1, max = 5 )
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @Column( columnDefinition = "SMALLINT DEFAULT 5" )
     @SuppressWarnings(
@@ -98,10 +87,11 @@ public final class Comment implements EntityToPostgresConverter {
 
     @Immutable
     @NotNull( message = ErrorMessages.NULL_VALUE )
-    @ManyToOne(
+    @OneToOne(
             fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL,
-            targetEntity = Student.class
+            cascade = CascadeType.REMOVE,
+            targetEntity = Student.class,
+            orphanRemoval = true
     )
     private Student student;
 
@@ -109,10 +99,11 @@ public final class Comment implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @Immutable
     @PartitionKey
-    @ManyToOne(
+    @OneToOne(
             fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL,
-            targetEntity = Lesson.class
+            cascade = CascadeType.REMOVE,
+            targetEntity = Lesson.class,
+            orphanRemoval = true
     )
     private Lesson lesson;
 

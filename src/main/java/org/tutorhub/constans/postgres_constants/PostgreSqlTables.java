@@ -28,10 +28,12 @@ public final class PostgreSqlTables {
     public final static String HOMEWORK_MARKS = "HOMEWORK_MARKS";
     public final static String HOMEWORK = "HOMEWORK";
 
+    public final static String LESSON_NOTES = "LESSON_NOTES";
+    public final static String LESSONS = "LESSONS";
+
     public final static String COMMENTS = "COMMENTS";
     public final static String ADDRESS = "ADDRESS";
     public final static String SUBJECT = "SUBJECT";
-    public final static String LESSONS = "LESSONS";
     public final static String GROUPS = "GROUPS";
 
     @SuppressWarnings( value = "названия таблиц которые будут отвечать за соединений разных таблиц" )

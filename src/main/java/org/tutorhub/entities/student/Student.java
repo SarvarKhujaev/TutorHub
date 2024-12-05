@@ -1,7 +1,6 @@
 package org.tutorhub.entities.student;
 
 import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
-import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraints;
 
 import org.tutorhub.constans.postgres_constants.PostgreSqlFunctions;
 import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
@@ -13,26 +12,28 @@ import org.tutorhub.constans.hibernate.HibernateCacheRegions;
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
 
+import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
+import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
+
+import org.tutorhub.inspectors.CollectionsInspector;
+import org.tutorhub.inspectors.AnnotationInspector;
+
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 
 import org.tutorhub.entities.educationTypes.EducationType;
 import org.tutorhub.entities.subject.Subject;
-import org.tutorhub.entities.group.Group;
-
-import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
-import org.tutorhub.inspectors.CollectionsInspector;
-import org.tutorhub.inspectors.AnnotationInspector;
-
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.PartitionKey;
-import org.hibernate.annotations.Immutable;
-import org.hibernate.annotations.Check;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
 import jakarta.persistence.*;
+
+import org.hibernate.annotations.*;
 
 import java.util.Date;
 import java.util.List;
@@ -47,16 +48,14 @@ import java.util.List;
         usage = CacheConcurrencyStrategy.READ_WRITE,
         region = HibernateCacheRegions.STUDENT_REGION
 )
-@Check(
-        name = PostgresConstraints.TEACHER_TABLE_CONSTRAINT,
-        constraints = PostgresConstraintsValues.AGE_CONSTRAINT
-)
-@Check(
-        name = PostgresConstraints.TEACHER_TABLE_PHONE_NUMBER_CONSTRAINT,
-        constraints = PostgresConstraintsValues.PHONE_NUMBER_CONSTRAINT
+@Checks(
+        value = {
+                @Check( constraints = PostgresConstraintsValues.AGE_CONSTRAINT ),
+                @Check( constraints = PostgresConstraintsValues.PHONE_NUMBER_CONSTRAINT )
+        }
 )
 @EntityAnnotations(
-        name = "Student",
+        name = PostgreSqlTables.STUDENTS,
         tableName = PostgreSqlTables.STUDENTS,
         keysapceName = PostgreSqlSchema.ENTITIES
 )
@@ -167,9 +166,9 @@ public final class Student implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @NotBlank( message = ErrorMessages.NULL_VALUE )
     @Column(
-            columnDefinition = "VARCHAR( 50 )",
+            columnDefinition = "VARCHAR( 30 )",
             nullable = false,
-            length = 50,
+            length = 30,
             name = "birth_date"
     )
     private String birthDate;
@@ -180,10 +179,6 @@ public final class Student implements EntityToPostgresConverter {
                     которое он заполняет при заполнении анкеты
                     описывает свои предпочтения и планы
                     """
-    )
-    @Size(
-            max = 200,
-            message = ErrorMessages.VALUE_OUT_OF_RANGE
     )
     @Column(
             columnDefinition = "VARCHAR( 200 )",
@@ -196,48 +191,27 @@ public final class Student implements EntityToPostgresConverter {
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.REFRESH,
-            targetEntity = Group.class,
-            orphanRemoval = true
-    )
-    @Column( name = "group_list" )
-    @OrderBy( value = "groupName DESC, createdDate DESC" )
-    @JoinColumn( name = "teacher_id" )
-    @SuppressWarnings(
-            value = """
-                    Hibernate can also cache collections, and the @Cache annotation must be on added to the collection property.
-                    If the collection is made of value types (basic or embeddables mapped with @ElementCollection),
-                    the collection is stored as such.
-                    If the collection contains other entities (@OneToMany or @ManyToMany),
-                    the collection cache entry will store the entity identifiers only.
-                    """
-    )
-    @org.hibernate.annotations.Cache(
-            usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE
-    )
-    private final List< Group > groupList = CollectionsInspector.emptyList();
-
-    @NotNull( message = ErrorMessages.NULL_VALUE )
-    @OneToMany(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.REFRESH,
             targetEntity = Subject.class,
             orphanRemoval = true
     )
-    @Column( name = "subject_list" )
+    @JoinTable(
+            name = PostgreSqlTables.STUDENTS + PostgreSqlTables.SUBJECT,
+            schema = PostgreSqlSchema.ENTITIES,
+            joinColumns = @JoinColumn(
+                    name = PostgreSqlTables.STUDENTS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.STUDENTS,
+                    nullable = false,
+                    updatable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = PostgreSqlTables.SUBJECT + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.SUBJECT,
+                    nullable = false,
+                    updatable = false
+            )
+    )
     @OrderBy( value = "name DESC, createdDate DESC" )
-    @JoinColumn( name = "subject_id" )
-    @SuppressWarnings(
-            value = """
-                    Hibernate can also cache collections, and the @Cache annotation must be on added to the collection property.
-                    If the collection is made of value types (basic or embeddables mapped with @ElementCollection),
-                    the collection is stored as such.
-                    If the collection contains other entities (@OneToMany or @ManyToMany),
-                    the collection cache entry will store the entity identifiers only.
-                    """
-    )
-    @org.hibernate.annotations.Cache(
-            usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE
-    )
+    @org.hibernate.annotations.Cache( usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
     private final List< Subject > subjectList = CollectionsInspector.emptyList();
 
     @NotNull( message = ErrorMessages.NULL_VALUE )
@@ -247,19 +221,24 @@ public final class Student implements EntityToPostgresConverter {
             targetEntity = EducationType.class,
             orphanRemoval = true
     )
+    @JoinTable(
+            name = PostgreSqlTables.STUDENTS + PostgreSqlTables.EDUCATION_TYPES,
+            schema = PostgreSqlSchema.ENTITIES,
+            joinColumns = @JoinColumn(
+                    name = PostgreSqlTables.STUDENTS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.STUDENTS,
+                    nullable = false,
+                    updatable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = PostgreSqlTables.EDUCATION_TYPES + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.EDUCATION_TYPES,
+                    nullable = false,
+                    updatable = false
+            )
+    )
     @OrderBy( value = "name DESC, createdDate DESC" )
-    @SuppressWarnings(
-            value = """
-                    Hibernate can also cache collections, and the @Cache annotation must be on added to the collection property.
-                    If the collection is made of value types (basic or embeddables mapped with @ElementCollection),
-                    the collection is stored as such.
-                    If the collection contains other entities (@OneToMany or @ManyToMany),
-                    the collection cache entry will store the entity identifiers only.
-                    """
-    )
-    @org.hibernate.annotations.Cache(
-            usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE
-    )
+    @org.hibernate.annotations.Cache( usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
     private final List< EducationType > educationTypeList = CollectionsInspector.emptyList();
 
     public Student () {}

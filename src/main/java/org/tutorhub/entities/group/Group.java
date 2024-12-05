@@ -1,8 +1,6 @@
 package org.tutorhub.entities.group;
 
-import jakarta.validation.constraints.NotEmpty;
 import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
-import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraints;
 
 import org.tutorhub.constans.postgres_constants.PostgreSqlFunctions;
 import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
@@ -13,19 +11,23 @@ import org.tutorhub.constans.hibernate.HibernateNativeNamedQueries;
 import org.tutorhub.constans.hibernate.HibernateCacheRegions;
 
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
+import org.tutorhub.annotations.entity.fields.WeakReferenceAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
 
-import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 
+import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
+
 import org.tutorhub.inspectors.CollectionsInspector;
 import org.tutorhub.inspectors.AnnotationInspector;
 
 import org.tutorhub.entities.educationDirection.EducationDirection;
+import org.tutorhub.entities.student.Student;
 import org.tutorhub.entities.teacher.Teacher;
 import org.tutorhub.entities.lesson.Lesson;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -51,10 +53,7 @@ import java.util.List;
         usage = CacheConcurrencyStrategy.READ_ONLY,
         region = HibernateCacheRegions.GROUP_REGION
 )
-@Check(
-        name = PostgresConstraints.GROUP_TABLE_CONSTRAINT,
-        constraints = PostgresConstraintsValues.GROUP_TABLE_CONSTRAINT_VALUE
-)
+@Check( constraints = PostgresConstraintsValues.STUDENTS_COUNT_IN_GROUP_TABLE_CONSTRAINT )
 @org.hibernate.annotations.NamedNativeQueries(
         value = {
                 @org.hibernate.annotations.NamedNativeQuery(
@@ -124,48 +123,116 @@ public final class Group implements EntityToPostgresConverter {
     private byte maxStudentsNumber = 3;
 
     @SuppressWarnings( value = "преподаватель группы" )
+    @NotNull( message = ErrorMessages.NULL_VALUE )
     @PartitionKey
     @ManyToOne(
             targetEntity = Teacher.class,
             cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
-    @JoinColumn( name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID )
+    @JoinTable(
+            name = PostgreSqlTables.GROUPS + PostgreSqlTables.TEACHERS,
+            schema = PostgreSqlSchema.ENTITIES,
+            joinColumns = @JoinColumn(
+                    name = PostgreSqlTables.GROUPS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.GROUPS,
+                    nullable = false,
+                    updatable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.TEACHERS,
+                    nullable = false,
+                    updatable = false
+            )
+    )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.GROUPS + "_teacher", isCollection = false )
     private Teacher teacher;
 
     @SuppressWarnings( value = "название направления по которому проводятся занятия" )
     @NotNull( message = ErrorMessages.NULL_VALUE )
-    @Immutable
-    @PartitionKey
     @ManyToOne(
             targetEntity = EducationDirection.class,
             cascade = CascadeType.PERSIST,
             fetch = FetchType.EAGER
     )
+    @JoinTable(
+            name = PostgreSqlTables.GROUPS + PostgreSqlTables.EDUCATION_DIRECTIONS,
+            schema = PostgreSqlSchema.ENTITIES,
+            joinColumns = @JoinColumn(
+                    name = PostgreSqlTables.GROUPS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.GROUPS,
+                    nullable = false,
+                    updatable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = PostgreSqlTables.EDUCATION_DIRECTIONS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.EDUCATION_DIRECTIONS,
+                    nullable = false,
+                    updatable = false
+            )
+    )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.GROUPS + "_educationDirection", isCollection = false )
     private EducationDirection educationDirection;
 
     @NotNull( message = ErrorMessages.NULL_VALUE )
-    @OrderBy( value = "lessonDate DESC, lessonName ASC" )
     @OneToMany(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.REFRESH,
             targetEntity = Lesson.class,
             orphanRemoval = true
     )
-    @JoinColumn( name = "group_id" )
-    @SuppressWarnings(
-            value = """
-                    Hibernate can also cache collections, and the @Cache annotation must be on added to the collection property.
-                    If the collection is made of value types (basic or embeddables mapped with @ElementCollection),
-                    the collection is stored as such.
-                    If the collection contains other entities (@OneToMany or @ManyToMany),
-                    the collection cache entry will store the entity identifiers only.
-                    """
+    @JoinTable(
+            name = PostgreSqlTables.GROUPS + PostgreSqlTables.LESSONS,
+            schema = PostgreSqlSchema.ENTITIES,
+            joinColumns = @JoinColumn(
+                    name = PostgreSqlTables.GROUPS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.GROUPS,
+                    nullable = false,
+                    updatable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = PostgreSqlTables.LESSONS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.LESSONS,
+                    nullable = false,
+                    updatable = false
+            )
     )
+    @OrderBy( value = "lessonDate DESC, lessonName ASC" )
     @org.hibernate.annotations.Cache(
             usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE
     )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.GROUPS + "_lessonList" )
     private final List< Lesson > lessonList = CollectionsInspector.newList();
+
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REFRESH,
+            targetEntity = Student.class
+    )
+    @JoinTable(
+            name = PostgreSqlTables.GROUPS + PostgreSqlTables.STUDENTS,
+            schema = PostgreSqlSchema.ENTITIES,
+            joinColumns = @JoinColumn(
+                    name = PostgreSqlTables.GROUPS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.GROUPS,
+                    nullable = false,
+                    updatable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = PostgreSqlTables.STUDENTS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.STUDENTS,
+                    nullable = false,
+                    updatable = false
+            )
+    )
+    @OrderBy( value = "name DESC, surname ASC" )
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE
+    )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.GROUPS + "_lessonList" )
+    private final List< Student > studentList = CollectionsInspector.newList();
 
     public Group () {}
 

@@ -1,6 +1,7 @@
 package org.tutorhub.entities.studyCenter;
 
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
+import org.tutorhub.annotations.entity.fields.WeakReferenceAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
 
 import org.tutorhub.constans.postgres_constants.PostgreSqlFunctions;
@@ -80,6 +81,7 @@ public final class Course implements EntityToPostgresConverter {
             cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY
     )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.COURSES + "_subject", isCollection = false )
     private Subject subject;
 
     @SuppressWarnings( value = "каждый курс связан с одним учителем который отвечает за этот курс" )
@@ -92,13 +94,25 @@ public final class Course implements EntityToPostgresConverter {
     )
     @JoinTable(
             name = PostgreSqlTables.COURSES + PostgreSqlTables.TEACHERS,
-            joinColumns = @JoinColumn( name = PostgreSqlTables.COURSES + StringOperations.ENTITY_ID ),
-            inverseJoinColumns = @JoinColumn( name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID )
+            schema = PostgreSqlSchema.ENTITIES,
+            joinColumns = @JoinColumn(
+                    name = PostgreSqlTables.COURSES + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.COURSES,
+                    nullable = false,
+                    updatable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.TEACHERS,
+                    nullable = false,
+                    updatable = false
+            )
     )
     @OrderBy( value = "name DESC, createdDate DESC" )
     @org.hibernate.annotations.Cache(
             usage = CacheConcurrencyStrategy.READ_WRITE
     )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.COURSES + "_teacherList" )
     private List< Teacher > teacherList;
 
     public Course () {}

@@ -8,6 +8,7 @@ import org.tutorhub.constans.postgres_constants.PostgreSqlTables;
 import org.tutorhub.constans.entities_constants.ErrorMessages;
 
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
+import org.tutorhub.annotations.entity.fields.WeakReferenceAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
 
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
@@ -92,14 +93,6 @@ public final class StudyCenter implements EntityToPostgresConverter {
     )
     private String name;
 
-    @NotNull
-    @OneToOne(
-            targetEntity = Address.class,
-            cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY
-    )
-    private Address address;
-
     @Size(
             min = 5,
             max = 50,
@@ -133,6 +126,15 @@ public final class StudyCenter implements EntityToPostgresConverter {
     @PartitionKey
     private String phoneNumber;
 
+    @NotNull
+    @OneToOne(
+            targetEntity = Address.class,
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY
+    )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.STUDY_CENTER + "_address", isCollection = false )
+    private Address address;
+
     @SuppressWarnings( value = "список курсов центра" )
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToMany(
@@ -147,23 +149,40 @@ public final class StudyCenter implements EntityToPostgresConverter {
     )
     @JoinTable(
             name = PostgreSqlTables.STUDY_CENTER + PostgreSqlTables.COURSES,
-            joinColumns = @JoinColumn( name = PostgreSqlTables.STUDY_CENTER + StringOperations.ENTITY_ID ),
-            inverseJoinColumns = @JoinColumn( name = PostgreSqlTables.COURSES + StringOperations.ENTITY_ID )
+            schema = PostgreSqlSchema.ENTITIES,
+            joinColumns = @JoinColumn(
+                    name = PostgreSqlTables.STUDY_CENTER + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.STUDY_CENTER,
+                    nullable = false,
+                    updatable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = PostgreSqlTables.COURSES + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.COURSES,
+                    nullable = false,
+                    updatable = false
+            )
     )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.STUDY_CENTER + "_courseList" )
     private List< Course > courseList = CollectionsInspector.emptyList();
 
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.REFRESH,
-            mappedBy = PostgreSqlTables.EDUCATION_TYPES,
             targetEntity = EducationType.class,
             orphanRemoval = true
+    )
+    @JoinTable(
+            name = PostgreSqlTables.STUDY_CENTER + PostgreSqlTables.EDUCATION_TYPES,
+            joinColumns = @JoinColumn( name = PostgreSqlTables.STUDY_CENTER + StringOperations.ENTITY_ID ),
+            inverseJoinColumns = @JoinColumn( name = PostgreSqlTables.EDUCATION_TYPES + StringOperations.ENTITY_ID )
     )
     @OrderBy( value = "name DESC, createdDate DESC" )
     @org.hibernate.annotations.Cache(
             usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE
     )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.STUDY_CENTER + "_educationTypeList" )
     private final List< EducationType > educationTypeList = CollectionsInspector.emptyList();
 
     @SuppressWarnings( value = "название направлений по которым проводятся занятия" )
@@ -175,10 +194,16 @@ public final class StudyCenter implements EntityToPostgresConverter {
             targetEntity = EducationDirection.class,
             orphanRemoval = true
     )
+    @JoinTable(
+            name = PostgreSqlTables.STUDY_CENTER + PostgreSqlTables.EDUCATION_DIRECTIONS,
+            joinColumns = @JoinColumn( name = PostgreSqlTables.STUDY_CENTER + StringOperations.ENTITY_ID ),
+            inverseJoinColumns = @JoinColumn( name = PostgreSqlTables.EDUCATION_DIRECTIONS + StringOperations.ENTITY_ID )
+    )
     @OrderBy( value = "directionName DESC, createdDate DESC" )
     @org.hibernate.annotations.Cache(
             usage = CacheConcurrencyStrategy.READ_ONLY
     )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.STUDY_CENTER + "_educationDirections" )
     private List< EducationDirection > educationDirections = CollectionsInspector.emptyList();
 
     public StudyCenter () {}

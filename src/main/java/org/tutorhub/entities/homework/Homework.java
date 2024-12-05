@@ -1,38 +1,26 @@
 package org.tutorhub.entities.homework;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.Immutable;
-import org.hibernate.annotations.PartitionKey;
-import org.tutorhub.constans.entities_constants.ErrorMessages;
 import org.tutorhub.constans.postgres_constants.PostgreSqlFunctions;
-import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
-import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraints;
-
 import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
 import org.tutorhub.constans.postgres_constants.PostgreSqlTables;
-import org.tutorhub.constans.hibernate.HibernateCacheRegions;
+import org.tutorhub.constans.entities_constants.ErrorMessages;
 
+import org.tutorhub.interfaces.database.EntityToPostgresConverter;
+import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Check;
+import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
 
-import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
-import org.tutorhub.interfaces.database.EntityToPostgresConverter;
+import org.hibernate.annotations.PartitionKey;
+import org.hibernate.annotations.Immutable;
 
 import java.util.Date;
-
 
 @Entity( name = PostgreSqlTables.HOMEWORK )
 @Table(
         name = PostgreSqlTables.HOMEWORK,
         schema = PostgreSqlSchema.ENTITIES
-)
-@Cacheable
-@org.hibernate.annotations.Cache(
-        usage = CacheConcurrencyStrategy.READ_WRITE,
-        region = HibernateCacheRegions.TEACHER_REGION
 )
 @EntityAnnotations(
         name = PostgreSqlTables.HOMEWORK,

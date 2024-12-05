@@ -1,7 +1,6 @@
 package org.tutorhub.entities.address;
 
 import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
-import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraints;
 
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
@@ -40,10 +39,7 @@ import java.util.Date;
 
         comment = "отвечает за хранение данных об адресе"
 )
-@Check(
-        name = PostgresConstraints.ADDRESS_TABLE_LOCATION_CONSTRAINT,
-        constraints = PostgresConstraintsValues.ADDRESS_TABLE_LOCATION_CONSTRAINT
-)
+@Check( constraints = PostgresConstraintsValues.ADDRESS_TABLE_LOCATION_CONSTRAINT )
 public final class Address implements EntityToPostgresConverter {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
