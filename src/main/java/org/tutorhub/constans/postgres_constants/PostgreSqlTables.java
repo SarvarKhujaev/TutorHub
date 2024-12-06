@@ -3,8 +3,9 @@ package org.tutorhub.constans.postgres_constants;
 import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
 
 public final class PostgreSqlTables {
-    @SuppressWarnings( value = "данные о посещениях урока" )
+    @SuppressWarnings( value = "хранит данные о том, какие занятия посещал студент" )
     public final static String STUDENT_APPEARANCE_IN_LESSONS = "STUDENT_APPEARANCE_IN_LESSONS";
+    public final static String STUDENT_STUDY_INTERVAL = "STUDENT_STUDY_INTERVAL";
     @SuppressWarnings( value = "расписание студента" )
     public final static String STUDENT_SCHEDULE = "STUDENT_SCHEDULE";
     @SuppressWarnings( value = "оценки студента от учителя за каждый урок" )
@@ -26,13 +27,13 @@ public final class PostgreSqlTables {
     public final static String EDUCATION_TYPES = "EDUCATION_TYPES";
 
     public final static String SOLVED_HOMEWORKS = "SOLVED_HOMEWORKS";
-    public final static String HOMEWORK = "HOMEWORK";
-
     public final static String HOMEWORK_MARKS = "HOMEWORK_MARKS";
+    public final static String HOMEWORK = "HOMEWORK";
 
     public final static String LESSON_NOTES = "LESSON_NOTES";
     public final static String LESSONS = "LESSONS";
 
+    public final static String FUTURE_PLANS_AND_WISHES = "FUTURE_PLANS_AND_WISHES";
     public final static String COMMENTS = "COMMENTS";
     public final static String ADDRESS = "ADDRESS";
     public final static String SUBJECT = "SUBJECT";

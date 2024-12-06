@@ -28,7 +28,7 @@ public sealed class PostgresMaterializedViewRegister extends PostgresBufferRegis
                 this.getSession().createNativeQuery(
                         PostgresMaterializedViewMethods.REFRESH_ALL_MATERIALIZED_VIEWS.formatted(
                                 PostgresCreateValues.MATERIALIZED_VIEW.getOriginalValue(),
-                                PostgreSqlSchema.UNIVERSITY
+                                PostgreSqlSchema.ENTITIES
                         ),
                         String.class
                 ).getResultList(),

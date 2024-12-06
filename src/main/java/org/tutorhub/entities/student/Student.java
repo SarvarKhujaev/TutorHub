@@ -1,5 +1,6 @@
 package org.tutorhub.entities.student;
 
+import org.tutorhub.annotations.entity.fields.WeakReferenceAnnotation;
 import org.tutorhub.constans.postgres_constants.postgres_constraints_constants.PostgresConstraintsValues;
 
 import org.tutorhub.constans.postgres_constants.PostgreSqlFunctions;
@@ -12,6 +13,7 @@ import org.tutorhub.constans.hibernate.HibernateCacheRegions;
 import org.tutorhub.annotations.entity.constructor.EntityConstructorAnnotation;
 import org.tutorhub.annotations.entity.object.EntityAnnotations;
 
+import org.tutorhub.entities.wishAndPlans.FuturePlan;
 import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
 import org.tutorhub.inspectors.dataTypesInpectors.TimeInspector;
 
@@ -211,8 +213,35 @@ public final class Student implements EntityToPostgresConverter {
             )
     )
     @OrderBy( value = "name DESC, createdDate DESC" )
-    @org.hibernate.annotations.Cache( usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.STUDENTS + "_subjectList" )
     private final List< Subject > subjectList = CollectionsInspector.emptyList();
+
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            targetEntity = FuturePlan.class,
+            orphanRemoval = true
+    )
+    @JoinTable(
+            name = PostgreSqlTables.STUDENTS + PostgreSqlTables.FUTURE_PLANS_AND_WISHES,
+            schema = PostgreSqlSchema.ENTITIES,
+            joinColumns = @JoinColumn(
+                    name = PostgreSqlTables.STUDENTS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.STUDENTS,
+                    nullable = false,
+                    updatable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = PostgreSqlTables.FUTURE_PLANS_AND_WISHES + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.FUTURE_PLANS_AND_WISHES,
+                    nullable = false,
+                    updatable = false
+            )
+    )
+    @OrderBy( value = "createdDate DESC" )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.STUDENTS + "_futurePlanList" )
+    private final List< FuturePlan > futurePlanList = CollectionsInspector.emptyList();
 
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToMany(
@@ -238,7 +267,7 @@ public final class Student implements EntityToPostgresConverter {
             )
     )
     @OrderBy( value = "name DESC, createdDate DESC" )
-    @org.hibernate.annotations.Cache( usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.STUDENTS + "_educationTypeList" )
     private final List< EducationType > educationTypeList = CollectionsInspector.emptyList();
 
     public Student () {}

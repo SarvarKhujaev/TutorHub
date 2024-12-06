@@ -1,42 +1,7 @@
-CREATE TYPE entities_enums.status AS ENUM (
-    'LOGIN',
-    'LOGOUT',
-    'START_TO_WORK',
-    'STOP_TO_WORK',
-    'SET_IN_PAUSE',
-    'RETURNED_TO_WORK',
-    'CREATED',
-    'CANCEL',
-    'ACCEPTED',
-    'LATE',
-    'IN_TIME',
-    'FREE',
-    'ARRIVED',
-    'ATTACHED',
-    'FINISHED',
-    'ACTIVE',
-    'IN_ACTIVE',
-    'OPTIONAL',
-    'FORCE',
-    'LAST'
-);
-
-CREATE TYPE entities_enums.task_types AS ENUM (
-    'CARD_102',
-    'SELF_EMPLOYMENT',
-    'FREE',
-    'ESCORT',
-    'ACTIVE_TASK',
-    'CARD_DETAILS',
-    'FIND_FACE_PERSON',
-    'FIND_FACE_CAR',
-    'FIND_FACE_EVENT_BODY',
-    'FIND_FACE_EVENT_CAR',
-    'FIND_FACE_EVENT_FACE'
-);
-
 CREATE TYPE entities_enums.lesson_appearance_types AS ENUM (
-    'IN_TIME',
+    'ABSENT_BY_REASON',
+    'WILL_BE_LATE',
+    'VISITED',
     'ABSENT',
     'LATE'
 );
@@ -45,4 +10,22 @@ CREATE TYPE entities_enums.lesson_status AS ENUM (
     'CANCELED',
     'FINISHED',
     'CREATED'
+);
+
+CREATE TYPE entities_enums.homework_mark_types AS ENUM (
+    'GOOD_BUT_MUST_BE_IMPROVED',
+    'EXCELLENT',
+    'TERRIBLE',
+    'PERFECT',
+    'AMAZING',
+    'AWFUL',
+    'NICE',
+    'BAD'
+);
+
+CREATE TYPE entities_enums.wish_completion_types AS ENUM (
+    'NOT_COMPLETED',
+    'IN_PROGRESS',
+    'COMPLETED',
+    'REFUSED'
 );

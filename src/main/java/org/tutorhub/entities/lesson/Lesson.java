@@ -9,8 +9,8 @@ import org.tutorhub.constans.postgres_constants.PostgreSqlFunctions;
 import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
 import org.tutorhub.constans.postgres_constants.PostgreSqlTables;
 
-import org.tutorhub.constans.entities_constants.ErrorMessages;
 import org.tutorhub.constans.entities_constants.lesson.LessonStatus;
+import org.tutorhub.constans.entities_constants.ErrorMessages;
 
 import org.tutorhub.constans.hibernate.HibernateCacheRegions;
 
@@ -21,6 +21,7 @@ import org.tutorhub.inspectors.AnnotationInspector;
 
 import org.tutorhub.interfaces.database.EntityToPostgresConverter;
 
+import org.tutorhub.entities.student.StudentAppearanceInLesson;
 import org.tutorhub.entities.educationTypes.EducationType;
 import org.tutorhub.entities.comment.Comment;
 
@@ -45,7 +46,7 @@ import java.util.List;
         region = HibernateCacheRegions.LESSON_REGION
 )
 @EntityAnnotations(
-        name = "Lesson",
+        name = PostgreSqlTables.LESSONS,
         tableName = PostgreSqlTables.LESSONS,
         keysapceName = PostgreSqlSchema.ENTITIES
 )
@@ -92,6 +93,7 @@ public final class Lesson implements EntityToPostgresConverter {
             cascade = CascadeType.PERSIST,
             fetch = FetchType.EAGER
     )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.LESSONS + "_educationType", isCollection = false )
     private EducationType educationType;
 
     @LinksToDocs( links = "https://www.baeldung.com/jpa-default-column-values" )
@@ -133,6 +135,34 @@ public final class Lesson implements EntityToPostgresConverter {
     @Cache( usage = CacheConcurrencyStrategy.READ_WRITE )
     @WeakReferenceAnnotation( name = PostgreSqlTables.LESSONS + "_commentList" )
     private final List< Comment > commentList = CollectionsInspector.newList();
+
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REFRESH,
+            targetEntity = StudentAppearanceInLesson.class,
+            orphanRemoval = true
+    )
+    @JoinTable(
+            name = PostgreSqlTables.LESSONS + PostgreSqlTables.STUDENT_APPEARANCE_IN_LESSONS,
+            schema = PostgreSqlSchema.ENTITIES,
+            joinColumns = @JoinColumn(
+                    name = PostgreSqlTables.LESSONS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.LESSONS,
+                    nullable = false,
+                    updatable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = PostgreSqlTables.STUDENT_APPEARANCE_IN_LESSONS + StringOperations.ENTITY_ID,
+                    table = PostgreSqlTables.STUDENT_APPEARANCE_IN_LESSONS,
+                    nullable = false,
+                    updatable = false
+            )
+    )
+    @OrderBy( value = "lessonAppearanceTypes ASC" )
+    @Cache( usage = CacheConcurrencyStrategy.READ_WRITE )
+    @WeakReferenceAnnotation( name = PostgreSqlTables.LESSONS + "_studentAppearanceInLessonList" )
+    private final List< StudentAppearanceInLesson > studentAppearanceInLessonList = CollectionsInspector.newList();
 
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToMany(

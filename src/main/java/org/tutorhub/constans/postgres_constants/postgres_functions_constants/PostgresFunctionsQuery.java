@@ -55,7 +55,7 @@ public enum PostgresFunctionsQuery {
                             PostgresCreateValues.FUNCTION
                     ),
                     PostgresFunctionsNames.SHOW_ALL_TABLES_IN_SCHEMA,
-                    PostgreSqlSchema.UNIVERSITY
+                    PostgreSqlSchema.ENTITIES
             );
         }
     };
