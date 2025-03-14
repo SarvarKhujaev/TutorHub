@@ -88,7 +88,6 @@ public final class Comment implements EntityToPostgresConverter {
     @OneToOne(
             fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
-            mappedBy = PostgreSqlTables.COMMENTS,
             targetEntity = Student.class,
             orphanRemoval = true
     )

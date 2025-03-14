@@ -54,7 +54,6 @@ public final class SolvedHomework implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToOne(
             targetEntity = Student.class,
-            mappedBy = PostgreSqlTables.SOLVED_HOMEWORKS,
             cascade = CascadeType.REMOVE,
             fetch = FetchType.EAGER
     )
@@ -63,7 +62,6 @@ public final class SolvedHomework implements EntityToPostgresConverter {
 
     @OneToOne(
             targetEntity = HomeworkMark.class,
-            mappedBy = PostgreSqlTables.SOLVED_HOMEWORKS,
             cascade = CascadeType.REMOVE,
             fetch = FetchType.EAGER
     )

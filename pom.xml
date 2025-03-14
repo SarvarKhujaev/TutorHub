@@ -13,10 +13,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>TutorHub</name>
 	<description>TutorHub</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
 
 	<developers>
 		<developer>
@@ -193,13 +189,6 @@
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
-			<version>3.2.3</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml -->

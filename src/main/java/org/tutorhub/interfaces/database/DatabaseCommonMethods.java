@@ -44,7 +44,7 @@ public interface DatabaseCommonMethods extends ServiceCommonMethods {
 
     default Session getSession() {
         return HibernateConnector.getInstance().getSession();
-    };
+    }
 
     default Transaction newTransaction () {
         return this.getSession().beginTransaction();
@@ -52,13 +52,13 @@ public interface DatabaseCommonMethods extends ServiceCommonMethods {
 
     default SessionFactory getSessionFactory() {
         return HibernateConnector.getInstance().getSessionFactory();
-    };
+    }
 
     default StandardServiceRegistry getRegistry() {
         return HibernateConnector.getInstance().getRegistry();
-    };
+    }
 
     default ValidatorFactory getValidatorFactory() {
         return HibernateConnector.getInstance().getValidatorFactory();
-    };
+    }
 }

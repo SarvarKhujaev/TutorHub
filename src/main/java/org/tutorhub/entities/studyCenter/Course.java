@@ -98,14 +98,12 @@ public final class Course implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.COURSES + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.COURSES,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.TEACHERS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "name DESC, createdDate DESC" )

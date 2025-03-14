@@ -225,14 +225,12 @@ public final class Teacher implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.TEACHERS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.GROUPS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.GROUPS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "groupName DESC, createdDate DESC" )
@@ -253,14 +251,12 @@ public final class Teacher implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.TEACHERS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.LESSONS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.LESSONS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "lessonDate ASC, lessonName DESC" )
@@ -281,14 +277,12 @@ public final class Teacher implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.TEACHERS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.FUTURE_PLANS_AND_WISHES + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.FUTURE_PLANS_AND_WISHES,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "createdDate DESC" )
@@ -308,14 +302,12 @@ public final class Teacher implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.TEACHERS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.EDUCATION_TYPES + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.EDUCATION_TYPES,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "name DESC, createdDate DESC" )
@@ -335,14 +327,12 @@ public final class Teacher implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.TEACHERS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.EDUCATION_DIRECTIONS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.EDUCATION_DIRECTIONS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "directionName DESC, createdDate DESC" )

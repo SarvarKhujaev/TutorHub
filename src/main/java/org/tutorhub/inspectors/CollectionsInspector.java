@@ -37,43 +37,37 @@ public class CollectionsInspector extends UuidInspector {
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
-    protected static synchronized <T> Set<T> emptySet () {
+    protected static <T> Set<T> emptySet () {
         return UnmodifiableSet.unmodifiableSet( Collections.EMPTY_SET );
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
-    public static synchronized <T> List<T> emptyList () {
+    public static <T> List<T> emptyList () {
         return new UnmodifiableList<T>( Collections.EMPTY_LIST );
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
-    public static synchronized <T> CopyOnWriteArrayList<T> newList () {
+    public static <T> CopyOnWriteArrayList<T> newList () {
         return new CopyOnWriteArrayList<>();
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
-    protected final synchronized <T> ArrayList<T> newList ( final int listSize ) {
+    protected final <T> ArrayList<T> newList ( final int listSize ) {
         return new ArrayList<>( listSize );
     }
 
     @SafeVarargs
     @lombok.NonNull
-    @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> !null" )
-    protected final synchronized <T> List<T> newList (
+    protected final <T> List<T> newList (
             @lombok.NonNull final T ... objects
     ) {
         return UnmodifiableList.unmodifiableList( List.of( objects ) );
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_, _ -> !null" )
-    protected final synchronized <T> List<T> newList (
+    protected final <T> List<T> newList (
             final int duplicatesNumber,
             @lombok.NonNull final T object
     ) {
@@ -84,26 +78,22 @@ public class CollectionsInspector extends UuidInspector {
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
-    protected final synchronized <T> Vector<T> newVector ( final int listSize ) {
+    protected final <T> Vector<T> newVector ( final int listSize ) {
         return new Vector<>( listSize );
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
-    protected final synchronized <T, V> TreeMap<T, V> newTreeMap () {
+    protected final <T, V> TreeMap<T, V> newTreeMap () {
         return new TreeMap<>( Comparator.comparing( Objects::nonNull ) );
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
-    protected static synchronized <T, V> WeakHashMap<T, V> newMap () {
+    protected static <T, V> WeakHashMap<T, V> newMap () {
         return new WeakHashMap<>( 1 );
     }
 
-    @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_, _ -> _" )
-    public final synchronized <A, B, C> boolean checkCollectionsLengthEquality(
+    public final <A, B, C> boolean checkCollectionsLengthEquality(
             @lombok.NonNull final Map<A, B> firstCollection,
             @lombok.NonNull final Collection<C> secondCollection
     ) {
@@ -111,32 +101,28 @@ public class CollectionsInspector extends UuidInspector {
     }
 
     @SuppressWarnings( value = "получает коллекцию и логику описывающую поведение для элементов коллекции" )
-    @lombok.Synchronized
-    protected final synchronized <T> void analyze (
+    protected final <T> void analyze (
             @lombok.NonNull final Collection<T> someList,
             @lombok.NonNull final Consumer<T> someConsumer
     ) {
         someList.forEach( someConsumer );
     }
 
-    @lombok.Synchronized
-    protected synchronized static <T> void analyze (
+    protected static <T> void analyze (
             @lombok.NonNull final Stream<T> someList,
             @lombok.NonNull final Consumer<T> someConsumer
     ) {
         someList.forEach( someConsumer );
     }
 
-    @lombok.Synchronized
-    protected final synchronized <T> void analyze (
+    protected final <T> void analyze (
             @lombok.NonNull final T[] someArray,
             @lombok.NonNull final Consumer<T> someConsumer
     ) {
         convertArrayToStream( someArray ).forEach( someConsumer );
     }
 
-    @lombok.Synchronized
-    protected final synchronized <T> void analyze (
+    protected final <T> void analyze (
             @lombok.NonNull final T[] someArray,
             @lombok.NonNull final Predicate<T> somePredicate,
             @lombok.NonNull final Consumer<T> someConsumer
@@ -144,16 +130,14 @@ public class CollectionsInspector extends UuidInspector {
         convertArrayToStream( someArray ).filter( somePredicate ).forEach( someConsumer );
     }
 
-    @lombok.Synchronized
-    protected final synchronized <T, V> void analyze (
+    protected final <T, V> void analyze (
             @lombok.NonNull final Map< T, V > someMap,
             @lombok.NonNull final BiConsumer<T, V> someConsumer
     ) {
         someMap.forEach( someConsumer );
     }
 
-    @lombok.Synchronized
-    protected final synchronized <T> void analyze (
+    protected final <T> void analyze (
             @lombok.NonNull final Iterator<T> iterator,
             @lombok.NonNull final Consumer<T> someConsumer,
             @lombok.NonNull final Supplier< Boolean > someSupplier
@@ -163,67 +147,59 @@ public class CollectionsInspector extends UuidInspector {
         }
     }
 
-    @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> true" )
-    public static synchronized <T> boolean isCollectionNotEmpty (
+    public static <T> boolean isCollectionNotEmpty (
             final Collection<T> collection
     ) {
         return collection != null && !collection.isEmpty();
     }
 
-    @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> true" )
-    public static synchronized <T, U> boolean isCollectionNotEmpty (
+    public static <T, U> boolean isCollectionNotEmpty (
             final Map<T, U> map
     ) {
         return map != null && !map.isEmpty();
     }
 
-    @lombok.Synchronized
-    public static synchronized <T> void checkAndClear (
+    public static <T> void checkAndClear (
             final Collection<T> collection
     ) {
         if ( isCollectionNotEmpty( collection ) ) collection.clear();
     }
 
-    @lombok.Synchronized
-    public static synchronized <T, U> void checkAndClear (
+    public static <T, U> void checkAndClear (
             final Map<T, U> map
     ) {
         if ( isCollectionNotEmpty( map ) ) map.clear();
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> _" )
-    protected static synchronized <T> List<T> convertArrayToList (
+    protected static <T> List<T> convertArrayToList (
             @lombok.NonNull final T[] objects
     ) {
         return Arrays.asList( objects );
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> _" )
-    protected static synchronized <T> Stream<T> convertArrayToStream (
+    protected static <T> Stream<T> convertArrayToStream (
             @lombok.NonNull final T[] objects
     ) {
         return Stream.of( objects );
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_ -> _" )
-    protected final synchronized Map< String, Object > getMap (
+    protected final Map< String, Object > getMap (
             @lombok.NonNull final String key
     ) {
         return UnmodifiableMap.unmodifiableMap( Map.of( "message", key ) );
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_, _ -> _" )
-    protected final synchronized Map< String, Object > getMap (
+    protected final Map< String, Object > getMap (
             @lombok.NonNull final String key,
             final boolean value
     ) {
@@ -236,9 +212,8 @@ public class CollectionsInspector extends UuidInspector {
     }
 
     @lombok.NonNull
-    @lombok.Synchronized
     @org.jetbrains.annotations.Contract( value = "_, _, _ -> _" )
-    protected final synchronized <T, V> Map< String, Object > getMap (
+    protected final <T, V> Map< String, Object > getMap (
             @lombok.NonNull final String key,
             final boolean value,
             @lombok.NonNull final Data<T, V> data

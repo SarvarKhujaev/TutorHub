@@ -89,7 +89,6 @@ public final class Lesson implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToOne(
             targetEntity = EducationType.class,
-            mappedBy = PostgreSqlTables.LESSONS,
             cascade = CascadeType.PERSIST,
             fetch = FetchType.EAGER
     )
@@ -121,14 +120,12 @@ public final class Lesson implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.LESSONS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.LESSONS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.COMMENTS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.COMMENTS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "mark ASC" )
@@ -149,14 +146,12 @@ public final class Lesson implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.LESSONS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.LESSONS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.STUDENT_APPEARANCE_IN_LESSONS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.STUDENT_APPEARANCE_IN_LESSONS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "lessonAppearanceTypes ASC" )
@@ -177,14 +172,12 @@ public final class Lesson implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.LESSONS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.LESSONS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.LESSON_NOTES + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.LESSON_NOTES,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "createdDate ASC" )

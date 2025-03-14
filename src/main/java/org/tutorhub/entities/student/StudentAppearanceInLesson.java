@@ -70,7 +70,6 @@ public final class StudentAppearanceInLesson implements EntityToPostgresConverte
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToOne(
             targetEntity = Student.class,
-            mappedBy = PostgreSqlTables.STUDENT_APPEARANCE_IN_LESSONS,
             cascade = CascadeType.REMOVE,
             fetch = FetchType.EAGER
     )

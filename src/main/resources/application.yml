@@ -4,12 +4,12 @@ server:
 
 spring:
     application:
-        name: TutorHubspring
+        name: TutorHubSpring
 
     datasource:
-        url: ${URL:jdbc:postgresql://localhost:5432/postgres}
-        username: ${USER:postgres}
-        password: ${PASSWORD:killerbee}
+        url: jdbc:postgresql://localhost:5432/postgres
+        username: skhuzhaev
+        password: ~!@#$%killerbee1998
 
     liquibase:
         enabled: true
@@ -18,8 +18,8 @@ spring:
 variables:
     HIBERNATE_VALUES:
         URL: ${URL:jdbc:postgresql://localhost:5432/postgres}
-        USER: ${USER:postgres}
-        PASSWORD: ${PASSWORD:killerbee}
+        USER: ${USER:skhuzhaev}
+        PASSWORD: ${PASSWORD:~!@#$%killerbee1998}
         POOL_SIZE: ${POOL_SIZE:10}
 
     ENCRYPTION_VARIABLES:

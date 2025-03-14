@@ -153,14 +153,12 @@ public final class StudyCenter implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.STUDY_CENTER + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.STUDY_CENTER,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.COURSES + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.COURSES,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @WeakReferenceAnnotation( name = PostgreSqlTables.STUDY_CENTER + "_courseList" )
@@ -190,7 +188,6 @@ public final class StudyCenter implements EntityToPostgresConverter {
     @OneToMany(
             fetch = FetchType.EAGER,
             cascade = CascadeType.PERSIST,
-            mappedBy = PostgreSqlTables.EDUCATION_DIRECTIONS,
             targetEntity = EducationDirection.class,
             orphanRemoval = true
     )

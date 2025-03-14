@@ -1,5 +1,6 @@
 package org.tutorhub.database.hibernateConfigs;
 
+import org.tutorhub.constans.postgres_constants.PostgreSqlSchema;
 import org.tutorhub.database.postgresConfigs.PostgresStatisticsQueryController;
 import org.tutorhub.annotations.LinksToDocs;
 
@@ -42,7 +43,10 @@ public class HibernateConfigsAndOptions extends PostgresStatisticsQueryControlle
 
         dbSettings.put(
                 Environment.USER,
-                "postgres"
+                getVariable(
+                        HibernateConfigsAndOptions.class,
+                        "USER"
+                )
         );
 
         dbSettings.put(
@@ -115,6 +119,8 @@ public class HibernateConfigsAndOptions extends PostgresStatisticsQueryControlle
         This way, you can get access to the Statistics class which comprises all sort of second-level cache metrics.
         */
         dbSettings.put( Environment.GENERATE_STATISTICS, true );
+        dbSettings.put( Environment.DEFAULT_SCHEMA, PostgreSqlSchema.ENTITIES );
+        dbSettings.put( Environment.JTA_PLATFORM, "h2" );
     }
 
     protected static void increaseOperationsCount () {

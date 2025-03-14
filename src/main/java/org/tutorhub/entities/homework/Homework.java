@@ -78,14 +78,12 @@ public final class Homework implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.HOMEWORK + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.HOMEWORK,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.SOLVED_HOMEWORKS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.SOLVED_HOMEWORKS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "id ASC, createdDate DESC" )

@@ -110,12 +110,12 @@ public final class HibernateConnector extends HibernateConfigsAndOptions impleme
         this.getSession().setJdbcBatchSize( BATCH_SIZE );
 
         this.setSessionProperties();
-        this.registerAllServices();
+//        this.registerAllServices();
 
         super.logging( this.getClass() );
 
-        new PostgresStatisticsQueryController().readPgStatTuple();
-        new PostgresStatisticsQueryController().readPgStatIndex();
+//        new PostgresStatisticsQueryController().readPgStatTuple();
+//        new PostgresStatisticsQueryController().readPgStatIndex();
     }
 
     private void setSessionProperties () {
@@ -125,9 +125,9 @@ public final class HibernateConnector extends HibernateConfigsAndOptions impleme
         this.getSession().setProperty(
                 "shared_preload_libraries",
                 String.join(
-                        ", ",
+                        SPACE_WITH_COMMA,
                         PostgresBufferMethods.PG_PREWARM, // расширение для прогрева буфера
-                        PostgresStatisticsParams.PG_STAT_STATEMENTS // расгирение для работы со статистикой
+                        PostgresStatisticsParams.PG_STAT_STATEMENTS // расширение для работы со статистикой
                 )
         );
 
@@ -162,7 +162,7 @@ public final class HibernateConnector extends HibernateConfigsAndOptions impleme
 
     @Override
     public synchronized void close () {
-        new PostgresVacuumImpl().vacuumTable();
+//        new PostgresVacuumImpl().vacuumTable();
 
         this.getSession().clear();
         this.getSession().close();

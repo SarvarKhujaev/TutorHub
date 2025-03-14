@@ -202,14 +202,12 @@ public final class Student implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.STUDENTS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.STUDENTS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.SUBJECT + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.SUBJECT,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "name DESC, createdDate DESC" )
@@ -229,14 +227,12 @@ public final class Student implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.STUDENTS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.STUDENTS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.FUTURE_PLANS_AND_WISHES + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.FUTURE_PLANS_AND_WISHES,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "createdDate DESC" )
@@ -256,14 +252,12 @@ public final class Student implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.STUDENTS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.STUDENTS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.EDUCATION_TYPES + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.EDUCATION_TYPES,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "name DESC, createdDate DESC" )

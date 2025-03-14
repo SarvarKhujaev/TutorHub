@@ -136,14 +136,12 @@ public final class Group implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.GROUPS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.GROUPS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.TEACHERS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.TEACHERS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @WeakReferenceAnnotation( name = PostgreSqlTables.GROUPS + "_teacher", isCollection = false )
@@ -162,14 +160,12 @@ public final class Group implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.GROUPS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.GROUPS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.EDUCATION_DIRECTIONS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.EDUCATION_DIRECTIONS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @WeakReferenceAnnotation( name = PostgreSqlTables.GROUPS + "_educationDirection", isCollection = false )
@@ -188,14 +184,12 @@ public final class Group implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.GROUPS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.GROUPS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.LESSONS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.LESSONS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "lessonDate DESC, lessonName ASC" )
@@ -217,14 +211,12 @@ public final class Group implements EntityToPostgresConverter {
             joinColumns = @JoinColumn(
                     name = PostgreSqlTables.GROUPS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.GROUPS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             ),
             inverseJoinColumns = @JoinColumn(
                     name = PostgreSqlTables.STUDENTS + StringOperations.ENTITY_ID,
                     table = PostgreSqlTables.STUDENTS,
-                    nullable = false,
-                    updatable = false
+                    nullable = false
             )
     )
     @OrderBy( value = "name DESC, surname ASC" )

@@ -67,7 +67,6 @@ public final class StudentStudyInterval implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToOne(
             targetEntity = Student.class,
-            mappedBy = PostgreSqlTables.STUDENT_STUDY_INTERVAL,
             cascade = CascadeType.PERSIST,
             fetch = FetchType.EAGER
     )
@@ -78,7 +77,6 @@ public final class StudentStudyInterval implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @OneToOne(
             targetEntity = StudyCenter.class,
-            mappedBy = PostgreSqlTables.STUDENT_STUDY_INTERVAL,
             cascade = CascadeType.PERSIST,
             fetch = FetchType.EAGER
     )
