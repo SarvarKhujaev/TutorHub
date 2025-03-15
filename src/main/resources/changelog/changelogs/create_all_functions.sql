@@ -17,3 +17,16 @@ returns SETOF text as $$
     $$
     language sql;
 
+
+
+CREATE OR REPLACE FUNCTION generate_phone_number()
+    RETURNS TEXT AS $$
+DECLARE
+    phone_number TEXT;
+BEGIN
+    LOOP
+        phone_number := '+99897' || LPAD(FLOOR(RANDOM() * 10000000)::TEXT, 7, '0');
+        RETURN phone_number;
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql;

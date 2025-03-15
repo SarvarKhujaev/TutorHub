@@ -122,6 +122,14 @@ public final class Group implements EntityToPostgresConverter {
     )
     private byte maxStudentsNumber = 3;
 
+    @NotNull( message = ErrorMessages.NULL_VALUE )
+    @Column(
+            columnDefinition = "SMALLINT DEFAULT 3",
+            nullable = false,
+            name = "students_number"
+    )
+    private byte studentsNumber = 3;
+
     @SuppressWarnings( value = "преподаватель группы" )
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @PartitionKey

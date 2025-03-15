@@ -120,7 +120,6 @@ public class HibernateConfigsAndOptions extends PostgresStatisticsQueryControlle
         */
         dbSettings.put( Environment.GENERATE_STATISTICS, true );
         dbSettings.put( Environment.DEFAULT_SCHEMA, PostgreSqlSchema.ENTITIES );
-        dbSettings.put( Environment.JTA_PLATFORM, "h2" );
     }
 
     protected static void increaseOperationsCount () {

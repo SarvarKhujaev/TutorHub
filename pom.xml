@@ -1,29 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>3.3.3</version>
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.tutorHub</groupId>
 	<artifactId>TutorHub</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>TutorHub</name>
 	<description>TutorHub</description>
-
-	<developers>
-		<developer>
-			<name>Sarvar Khujaev</name>
-			<email>uchixaitachi6@gmail.com</email>
-			<roles>
-				<role>developer</role>
-			</roles>
-			<timezone>+5</timezone>
-		</developer>
-	</developers>
 
 	<properties>
 		<java.version>17</java.version>
@@ -45,7 +35,6 @@
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>4.23.2</version>
 		</dependency>
 
 		<dependency>

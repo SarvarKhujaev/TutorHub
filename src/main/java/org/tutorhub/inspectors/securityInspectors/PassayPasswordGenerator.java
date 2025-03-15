@@ -1,13 +1,22 @@
 package org.tutorhub.inspectors.securityInspectors;
 
+import org.tutorhub.inspectors.AnnotationInspector;
 import org.tutorhub.constans.errors.Errors;
+
 import org.passay.CharacterData;
 import org.passay.*;
 
 @org.tutorhub.annotations.services.ImmutableEntityAnnotation
+@org.tutorhub.annotations.services.ServiceParametrAnnotation( propertyGroupName = "PASSAY_VARIABLES" )
 public final class PassayPasswordGenerator {
-    private static final byte charactersLength = 5;
-    private static final byte passwordLength = charactersLength * 4;
+    private static final int charactersLength = Integer.parseInt(
+            AnnotationInspector.getVariable(
+                    PassayPasswordGenerator.class,
+                    "PASSWORD_LENGTH"
+            )
+    );
+
+    private static final int passwordLength = charactersLength * 4;
 
     private static final PasswordValidator passwordValidator = new PasswordValidator(
             new LengthRule( passwordLength )
@@ -24,9 +33,13 @@ public final class PassayPasswordGenerator {
                 }
 
                 public String getCharacters() {
-                    return "!@#$%^&*()_+";
+                    return AnnotationInspector.getVariable(
+                            PassayPasswordGenerator.class,
+                            "PASSWORD_REGULARS"
+                    );
                 }
-            }, charactersLength
+            },
+            charactersLength
     );
 
     private static final CharacterRule digitRule = new CharacterRule( EnglishCharacterData.Digit, charactersLength );

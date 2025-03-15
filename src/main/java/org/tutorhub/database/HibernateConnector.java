@@ -110,7 +110,6 @@ public final class HibernateConnector extends HibernateConfigsAndOptions impleme
         this.getSession().setJdbcBatchSize( BATCH_SIZE );
 
         this.setSessionProperties();
-//        this.registerAllServices();
 
         super.logging( this.getClass() );
 
@@ -147,7 +146,7 @@ public final class HibernateConnector extends HibernateConfigsAndOptions impleme
     }
 
     @SuppressWarnings( value = "создаем и регистрируем все сервисы, параметры и расщирения" )
-    private void registerAllServices () {
+    public void registerAllServices () {
         final Transaction transaction = this.newTransaction();
 
         /*
@@ -162,7 +161,7 @@ public final class HibernateConnector extends HibernateConfigsAndOptions impleme
 
     @Override
     public synchronized void close () {
-//        new PostgresVacuumImpl().vacuumTable();
+        new PostgresVacuumImpl().vacuumTable();
 
         this.getSession().clear();
         this.getSession().close();

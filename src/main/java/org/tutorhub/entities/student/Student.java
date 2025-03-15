@@ -108,7 +108,7 @@ public final class Student implements EntityToPostgresConverter {
     @NotNull( message = ErrorMessages.NULL_VALUE )
     @NotBlank( message = ErrorMessages.NULL_VALUE )
     @Column(
-            columnDefinition = "VARCHAR( 13 ) DEFAULT '+9989771221' || random_between( 10, 100 )",
+            columnDefinition = "VARCHAR( 13 ) DEFAULT generate_phone_number()",
             nullable = false,
             unique = true,
             length = 13,

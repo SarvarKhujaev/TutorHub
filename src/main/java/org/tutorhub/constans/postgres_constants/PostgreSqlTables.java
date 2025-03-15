@@ -1,7 +1,5 @@
 package org.tutorhub.constans.postgres_constants;
 
-import org.tutorhub.inspectors.dataTypesInpectors.StringOperations;
-
 public final class PostgreSqlTables {
     @SuppressWarnings( value = "хранит данные о том, какие занятия посещал студент" )
     public final static String STUDENT_APPEARANCE_IN_LESSONS = "STUDENT_APPEARANCE_IN_LESSONS";
@@ -38,10 +36,4 @@ public final class PostgreSqlTables {
     public final static String ADDRESS = "ADDRESS";
     public final static String SUBJECT = "SUBJECT";
     public final static String GROUPS = "GROUPS";
-
-    @SuppressWarnings( value = "названия таблиц которые будут отвечать за соединений разных таблиц" )
-    public final static String STUDY_CENTER_AND_COURSE_JOIN_TABLE = StringOperations.generateJoinTable(
-            STUDY_CENTER,
-            COURSES
-    );
 }

@@ -16,6 +16,10 @@ spring:
         change-log: classpath:changelog/dbchangelog.xml
 
 variables:
+    PASSAY_VARIABLES:
+        PASSWORD_LENGTH: ${PASSWORD_LENGTH:2}
+        PASSWORD_REGULARS: ${PASSWORD_REGULARS:!@#$%^&*()_+}
+
     HIBERNATE_VALUES:
         URL: ${URL:jdbc:postgresql://localhost:5432/postgres}
         USER: ${USER:skhuzhaev}

@@ -12,6 +12,7 @@ public class TutorHubApplication {
 
 	public static void main( final String[] args ) {
 		context = SpringApplication.run( TutorHubApplication.class, args );
+		HibernateConnector.getInstance().registerAllServices();
 		HibernateConnector.getInstance().close();
 	}
 }
